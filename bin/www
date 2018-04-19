@@ -1,0 +1,21 @@
+const app = require('../server/server');
+const http = require('http');
+const https = require('https');
+const fs = require("file-system");
+const cors = require("cors");
+
+const httpPort = 8000;
+const httpsPort = 3001;
+
+app.use(cors());
+// Authentication
+const sslkey = fs.readFileSync('ssl-key.pem');
+const sslcert = fs.readFileSync('ssl-cert.pem');
+const options = {
+  key: sslkey,
+  cert: sslcert
+};
+
+https.createServer(options, app).listen(8001);
+http.createServer(app).listen(8000);
+

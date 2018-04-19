@@ -1,0 +1,118 @@
+@font-face {
+  font-family: "FontAwesome";
+  font-weight: normal;
+  font-style : normal;
+  src : url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.eot?v=4.3.0");
+  src : url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0") format("embedded-opentype"),
+  url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.woff2?v=4.3.0") format("woff2"),
+  url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.woff?v=4.3.0") format("woff"),
+  url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.ttf?v=4.3.0") format("truetype"),
+  url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular") format("svg");
+}
+
+.img-container {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.img-card {
+  display:inline-block;
+  margin: 20px;
+  width: 300px;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.7);
+  z-index: 999;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  display: block !important;
+  position: relative !important;
+  width: 450px;
+}
+
+.modal-body {
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+}
+
+.posted-time {
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.google-map {
+  position: relative;
+  height: 30% !important;
+  width: 40% !important;
+}
+
+.img-form {
+  margin-top: 10px;
+}
+
+.img-preview {
+  display: block;
+  margin: 20px auto;
+  width: 70%;
+}
+
+.submit-btn {
+  width: 150px;
+  display: block !important;
+  margin: 0 auto;
+}
+
+.search-container {
+  width: 300px;
+  margin: 20px auto;
+}
+
+.search-container input{
+  padding: 6px 20px;
+  margin-top: 8px;
+  font-size: 17px;
+  border: 1px solid #CECECE;
+  border-right: none;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+
+}
+
+.search-container button {
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: transparent;
+  font-size: 17px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.search-container input:focus,.search-container button:focus {
+  outline:0;
+}
+
+.search-empty {
+  color: #B8B8B8;
+  text-align: center;
+  margin-top: 30px;
+}

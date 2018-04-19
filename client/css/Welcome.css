@@ -1,0 +1,138 @@
+@import "https://fonts.googleapis.com/css?family=Heebo:100";
+.welcome-page {
+    background-image: url(https://images.unsplash.com/photo-1479150928156-423a69d91fe0?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=65573bb66d06601442701c5e0268e8a0&auto=format&fit=crop&w=2550&q=80);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #021C1E;
+    font-family: "Heebo", sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    width: 100vw;
+    position: absolute;
+}
+
+.signup-form p {
+    margin: 20px 0 10px 0;
+}
+
+.signup-form a {
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+
+/* Sign up form*/
+.signup-form {
+    background: rgba(2, 28, 30, 0.9);
+    border-radius: 10px;
+    padding: 30px;
+    width: 300px;
+    text-align: center;
+    color:white;
+}
+
+.input-field {
+    display: flex;
+    flex-direction: row-reverse;
+    border-bottom: 1px solid rgba(44, 120, 115, 0.1);
+    padding-bottom: 3px;
+    margin-bottom: 5px;
+}
+
+.input-field input {
+    outline: none;
+    border: 0;
+    color: #2C7873;
+    background: transparent;
+    font-family: "Heebo", sans-serif;
+    flex: 1 0 auto;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.signup-form input:focus ~ label {
+    opacity: 1;
+}
+.signup-form input[type='text'] ~ label::before {
+    content: "\f007";
+}
+.signup-form input[type='email'] ~ label::before {
+    content: "\f1fa";
+
+}
+.signup-form input[type='password'] ~ label::before {
+    content: "\f023";
+}
+.signup-form label {
+    font-family: FontAwesome;
+    font-size: 18px;
+    opacity: .1;
+    transition: opacity .5s ease;
+}
+.signup-form label::before {
+    align-items: center;
+    color: #2C7873;
+    display: flex;
+    height: 30px;
+    justify-content: center;
+    width: 30px;
+}
+
+.signup-form button {
+    align-items: center;
+    background: #6FB98F;
+    border: 0;
+    border-radius: 3px;
+    color: white;
+    display: flex;
+    font-family: "Heebo", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    justify-content: center;
+    margin-top: 20px;
+    outline: none;
+    padding: 10px 9px 10px 11px;
+    text-transform: uppercase;
+    width: 100%;
+}
+.signup-icon {
+    font-size: 12px;
+    margin-left: auto;
+    position: relative;
+    top: 1px;
+}
+.signup-icon button:hover {
+    -webkit-transform: scale(1.02);
+    transform: scale(1.02);
+}
+.signup-icon button:active {
+    -webkit-transform: scale(0.99);
+    transform: scale(0.99);
+}
+
+.example-enter {
+    margin-top: 30px;
+    opacity: .01;
+}
+.example-enter.example-enter-active {
+    margin-top: 0px;
+    opacity: 1;
+    transition: opacity .5s ease, margin .5s ease;
+}
+
+.example-leave {
+    margin-top: 0px;
+    opacity: 1;
+}
+.example-leave.example-leave-active {
+    margin-top: -30px;
+    opacity: .01;
+    transition: opacity .3s ease, margin .5s ease;
+}
