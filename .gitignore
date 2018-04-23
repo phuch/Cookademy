@@ -16,6 +16,10 @@
 .env.test.local
 .env.production.local
 
+# Environment var (e.g. username and password)
+.env
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+

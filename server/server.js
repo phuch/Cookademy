@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const passport = require('./passport');
+require('dotenv').config();
 
 // required routes
 const recipes = require('./routes/recipes.js');
@@ -29,7 +30,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(require('express-session')({
-  secret: 'shibainu',
+  secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true
 }));
@@ -48,7 +49,7 @@ app.use((req, res, next) => {
 });
 
 // connect to database
-mongoose.connect('mongodb://localhost:27017/recipes')
+mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/cookademy`)
 .then(
   () => {
     console.log('Connect to database successfully.');

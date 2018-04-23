@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const passportLocalMongoose = require('passport-local-mongoose');
+const bcrypt = require('bcryptjs');
+
 const Schema = mongoose.Schema;
 const user = new Schema({
   username: String,
@@ -8,10 +9,21 @@ const user = new Schema({
 
 user.methods = {
   checkPassword: function (inputPassword) {
-    return inputPassword === this.password;
+    return bcrypt.compareSync(inputPassword, this.password)
+  },
+  hashPassword: (plainTextPassword) => {
+    return bcrypt.hashSync(plainTextPassword, 10)
   }
 };
 
-user.plugin(passportLocalMongoose);
+// Define hooks for pre-saving
+user.pre('save', function (next) {
+  if (!this.password) {
+    next();
+  } else {
+    this.password = this.hashPassword(this.password);
+    next();
+  }
+});
 
 module.exports = mongoose.model('User', user);

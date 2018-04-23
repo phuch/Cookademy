@@ -12,13 +12,13 @@ class SignupForm extends Component {
       username: this.username.value,
       password: this.password.value
     })
-    .then(response => {
-      console.log(response)
-      if (!response.data.errmsg) {
+    .then(res => {
+      console.log(res);
+      if (res.data.error) {
+        console.log(res.data.error);
+      } else {
         console.log('Signup succesfully!');
         this.props.toggleForm();
-      } else {
-        console.log('username already exist');
       }
     }).catch(error => {
       console.log('Signup error: ');

@@ -13,12 +13,10 @@ router.post('/', (req, res) => {
       res.json({
         error: `Username ${req.body.username} already exist`
       });
-    }
-    else {
+    } else {
       console.log('create user');
       // create new user in the database
       User.create(req.body).then(user => {
-        console.log(user);
         res.send(user);
       });
     }
@@ -26,7 +24,6 @@ router.post('/', (req, res) => {
 });
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
-      console.log('logged in', req.user);
       const userInfo = {
         username: req.user.username
       };
@@ -34,8 +31,6 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
 });
 
 router.get('/', (req, res, next) => {
-  console.log('===== user!!======');
-  console.log(req.user);
   if (req.user) {
     res.json({ user: req.user })
   } else {

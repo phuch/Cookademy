@@ -35078,13 +35078,13 @@ var SignupForm = function (_Component) {
         name: _this.name.value,
         username: _this.username.value,
         password: _this.password.value
-      }).then(function (response) {
-        console.log(response);
-        if (!response.data.errmsg) {
+      }).then(function (res) {
+        console.log(res);
+        if (res.data.error) {
+          console.log(res.data.error);
+        } else {
           console.log('Signup succesfully!');
           _this.props.toggleForm();
-        } else {
-          console.log('username already exist');
         }
       }).catch(function (error) {
         console.log('Signup error: ');
