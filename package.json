@@ -38,8 +38,10 @@
     "react-dom": "^16.3.1",
     "react-icons": "^2.2.7",
     "react-modal": "^3.3.2",
+    "react-notify-toast": "^0.4.0",
     "react-router-dom": "^4.2.2",
     "react-tabs": "^2.2.1",
+    "react-toastify": "^4.0.0-rc.5",
     "sharp": "^0.20.1"
   },
   "devDependencies": {

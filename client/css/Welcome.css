@@ -85,6 +85,11 @@
     width: 30px;
 }
 
+.form-error {
+    font-size: 14px;
+    color: #FFD7D7;
+}
+
 .signup-form button {
     align-items: center;
     background: #6FB98F;
@@ -116,6 +121,8 @@
     -webkit-transform: scale(0.99);
     transform: scale(0.99);
 }
+
+
 
 .example-enter {
     margin-top: 30px;

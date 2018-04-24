@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import FaAngleRight from 'react-icons/lib/fa/angle-right';
+import {notify} from 'react-notify-toast';
 
 class LoginForm extends Component {
 
@@ -20,19 +21,19 @@ class LoginForm extends Component {
       password: this.password.value
     })
     .then(res => {
-      console.log(res);
       if (res.status === 200) {
         this.props.handleLogin({
           loggedIn: true,
           username: res.data.username
         });
-        // update the state to redirect to home
+        //update the state to redirect to home
         this.setState({
           redirectTo: '/home'
         });
       }
     }).catch(error => {
-      console.log(error);
+      console.log('Errors occur: ' + error);
+      notify.show('Authentication failed', 'error', 2000);
     });
 
   }

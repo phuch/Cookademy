@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../css/Welcome.css';
+import Notifications from 'react-notify-toast';
 
 // Children components
 import SignupForm from './SignupForm';
@@ -27,6 +28,7 @@ class Welcome extends Component {
   render() {
     return (
         <div className="welcome-page">
+          <Notifications />
           <div className="signup-form">
             {this.state.showSignupForm ?
                 <SignupForm toggleForm={this.toggleForm}/> :
