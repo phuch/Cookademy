@@ -22,7 +22,7 @@ class SignupForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     //request to server to add a new user
-    axios.post('/users/', {
+    axios.post('/users/register', {
       name: this.name.value,
       username: this.username.value,
       password: this.password.value

@@ -3,6 +3,7 @@ import '../css/Main.css';
 import '../css/react-tabs.css';
 
 import axios from 'axios';
+import decode from 'jwt-decode';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
@@ -27,12 +28,21 @@ class Main extends Component {
   }
 
   componentDidMount() {
+    const userToken = localStorage.getItem('jwtToken').split(' ')[1];
+    console.log(decode(userToken));
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken');
     axios.get('http://localhost:8000/recipes/')
     .then(res => {
       this.setState({images: res.data});
     }).catch(err => {
-      console.log(err);
+      if(err.response.status === 401) {
+        this.props.history.push('/')
+      }
     });
+  }
+
+  logout = () => {
+    localStorage.rem
   }
 
   toggleModal = (info) => {

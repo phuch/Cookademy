@@ -12,17 +12,11 @@ class Welcome extends Component {
     super(props);
     this.state = {
       showSignupForm: true,
-      loggedIn: false,
-      username: null
     }
   }
 
   toggleForm = () => {
     this.setState({showSignupForm: !this.state.showSignupForm});
-  }
-
-  handleLogin = (userObject) => {
-    this.setState(userObject)
   }
 
   render() {
@@ -32,7 +26,7 @@ class Welcome extends Component {
           <div className="signup-form">
             {this.state.showSignupForm ?
                 <SignupForm toggleForm={this.toggleForm}/> :
-                <LoginForm handleLogin={this.handleLogin}/>
+                <LoginForm history={this.props.history}/>
             }
             <p>
               {this.state.showSignupForm ?

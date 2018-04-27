@@ -1,30 +1,48 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt-nodejs');
 
 const Schema = mongoose.Schema;
 const user = new Schema({
   name: String,
-  username: String,
-  password: String
+  username: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  }
 });
 
-user.methods = {
-  checkPassword: function (inputPassword) {
-    return bcrypt.compareSync(inputPassword, this.password)
-  },
-  hashPassword: (plainTextPassword) => {
-    return bcrypt.hashSync(plainTextPassword, 10)
+user.pre('save', function (next) {
+  const user = this;
+  if (this.isModified('password') || this.isNew) {
+    bcrypt.genSalt(10, function (err, salt) {
+      if (err) {
+        return next(err);
+      }
+      bcrypt.hash(user.password, salt, null, function (err, hash) {
+        if (err) {
+          return next(err);
+        }
+        user.password = hash;
+        next();
+      });
+    });
+  } else {
+    return next();
   }
+});
+
+user.methods.comparePassword = function (passw, cb) {
+  bcrypt.compare(passw, this.password, function (err, isMatch) {
+    if (err) {
+      return cb(err);
+    }
+    cb(null, isMatch);
+  });
 };
 
-// Define hooks for pre-saving
-user.pre('save', function (next) {
-  if (!this.password) {
-    next();
-  } else {
-    this.password = this.hashPassword(this.password);
-    next();
-  }
-});
 
 module.exports = mongoose.model('User', user);

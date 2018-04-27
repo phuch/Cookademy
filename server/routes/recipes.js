@@ -1,5 +1,7 @@
 const express = require('express');
 const Recipe = require('../models/Recipe');
+const passport = require('passport');
+
 const router = express.Router();
 
 const ExifImage = require('exif').ExifImage;
@@ -11,36 +13,6 @@ const upload = multer({ dest: 'public/original/' });
 moment.locale();
 
 // Middleware functions
-const readExif = (req,res,next) => {
-  if (req.file) {
-    try {
-      new ExifImage({image: req.file.path}, function(error, exifData) {
-        const gpsData = exifData.gps;
-        if (error) {
-          console.log('Error: ' + error.message);
-          next();
-        } else {
-          if (gpsData.GPSLatitude || gpsData.GPSLongitude) {
-            req.body.coordinates = {
-              lat: toDecimal(gpsData.GPSLatitude, gpsData.GPSLatitudeRef),
-              lng: toDecimal(gpsData.GPSLongitude, gpsData.GPSLongitudeRef)
-            }
-          } else {
-            console.log("NO GPS DATA");
-            req.body.coordinates = null;
-          }
-          next();
-        }
-      });
-    } catch (error) {
-      console.log('Error: ' + error.message);
-      next();
-    }
-  } else {
-    next();
-  }
-};
-
 const makeThumbImg = (req,res,next) => {
   if (req.file) {
     const url = 'thumb/' + req.file.filename;
@@ -103,58 +75,69 @@ const updateDataToDB = (req,res) => {
 };
 
 // get all recipes or find recipes by name
-router.get('/', (req, res) => {
-  if (req.query.search) {
-    console.log('searching');
-    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-    Recipe.find({title: regex}, (err, recipe) => {
-      if (err)
-        console.log(err);
+router.get('/', passport.authenticate('jwt', { session: false}), (req, res) => {
+  const token = getToken(req.headers);
+  if (token) {
+    if (req.query.search) {
+      console.log('searching');
+      const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+      Recipe.find({title: regex}, (err, recipe) => {
+        if (err)
+          console.log(err);
 
-      if(!recipe)
-        return res.status(404).send({message: "Recipe not found"});
+        if (!recipe)
+          return res.status(404).send({message: "Recipe not found"});
 
-      res.send(recipe);
-    });
-  } else {
-    Recipe.find().then(recipes => {
-      res.send(recipes);
-    });
+        res.send(recipe);
+      });
+    } else {
+      Recipe.find().then(recipes => {
+        res.send(recipes);
+      });
+    }
   }
 });
 
 
 // upload recipe
-router.post('/', upload.single('file'), (req, res, next) => {
-  console.log('uploading');
-  req.body.time = moment().format('MMMM Do YYYY, h:mm');
-  req.body.original = 'original/' + req.file.filename;
-  next();
-}, readExif, makeThumbImg, makeMediumImg, createDataToDB);
+router.post('/', passport.authenticate('jwt', { session: false}), upload.single('file'), (req, res, next) => {
+  const token = getToken(req.headers);
+  if (token) {
+    console.log('uploading');
+    req.body.time = moment().format('MMMM Do YYYY, h:mm');
+    req.body.original = 'original/' + req.file.filename;
+    next();
+  }
+}, makeThumbImg, makeMediumImg, createDataToDB);
 
 
 // Update stored data
-router.put('/:id', upload.single('file'), (req,res,next) => {
-  if(req.file) {
-    req.body.original = 'original/' + req.file.filename;
+router.put('/:id', passport.authenticate('jwt', { session: false}), upload.single('file'), (req,res,next) => {
+  const token = getToken(req.headers);
+  if (token) {
+    if (req.file) {
+      req.body.original = 'original/' + req.file.filename;
+    }
+    next();
   }
-  next();
-
-}, readExif, makeThumbImg, makeMediumImg, updateDataToDB);
+}, makeThumbImg, makeMediumImg, updateDataToDB);
 
 // Delete stored data
-router.delete('/:id', (req,res) => {
-  Recipe.findByIdAndRemove(req.params.id, (err, recipe) => {
-    if (err)
-      console.log("ERROR" + err);
+router.delete('/:id', passport.authenticate('jwt', { session: false}), (req,res) => {
+  const token = getToken(req.headers);
+  if (token) {
+    Recipe.findByIdAndRemove(req.params.id, (err, recipe) => {
+      if (err)
+        console.log("ERROR" + err);
 
-    if (!recipe) {
-      return res.status(404).
-          send({message: "Recipe not found with id " + req.params.id});
-    }
+      if (!recipe) {
+        return res.status(404).
+            send({message: "Recipe not found with id " + req.params.id});
+      }
 
-    res.send({message: "Recipe deleted successfully!"});
-  });
+      res.send({message: "Recipe deleted successfully!"});
+    });
+  }
 });
 
 module.exports = router;
@@ -167,3 +150,16 @@ const toDecimal = (gpsData,ref) => {
 const escapeRegex = (text) => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
+
+const getToken = (headers) => {
+  if (headers && headers.authorization) {
+    const parted = headers.authorization.split(' ');
+    if (parted.length === 2) {
+      return parted[1];
+    } else {
+      return null;
+    }
+  } else {
+    return null;
+  }
+}

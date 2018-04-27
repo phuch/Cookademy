@@ -28,16 +28,16 @@ app.use(cors());
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(cookieParser());
-app.use(require('express-session')({
-  secret: process.env.SESSION_SECRET,
-  resave: true,
-  saveUninitialized: true
-}));
+//app.use(cookieParser(process.env.SESSION_SECRET));
+// app.use(require('express-session')({
+//   secret: process.env.SESSION_SECRET,
+//   resave: true,
+//   saveUninitialized: true
+// }));
 
 // passport init
-app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.initialize());
+//app.use(passport.session());
 
 // https redirect
 app.use((req, res, next) => {
@@ -60,7 +60,7 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${proc
 );
 
 // use routes
-app.use('/recipes', recipes);
+app.use('/recipes',recipes);
 app.use('/users', users);
 
 //render index.ejs

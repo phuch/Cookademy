@@ -6,13 +6,6 @@ import {notify} from 'react-notify-toast';
 
 class LoginForm extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      redirectTo: null
-    }
-  }
-
   handleSubmit = (e) => {
     console.log('handle login');
     e.preventDefault();
@@ -21,50 +14,39 @@ class LoginForm extends Component {
       password: this.password.value
     })
     .then(res => {
-      if (res.status === 200) {
-        this.props.handleLogin({
-          loggedIn: true,
-          username: res.data.username
-        });
-        //update the state to redirect to home
-        this.setState({
-          redirectTo: '/home'
-        });
-      }
+      localStorage.setItem('jwtToken', res.data.token);
+      this.props.history.push('/home');
+      console.log(res.data);
     }).catch(error => {
-      console.log('Errors occur: ' + error);
+      console.log('Error occurs: ' + error);
       notify.show('Authentication failed', 'error', 2000);
     });
 
   }
 
   render() {
-    if (this.state.redirectTo) {
-      return <Redirect to={{ pathname: this.state.redirectTo }} />
-    } else {
-      return (
-          <form className="modal-form" onSubmit={(e) => this.handleSubmit(e)}>
-            <div className="input-field">
-              <input name="username"
-                     required
-                     type="email"
-                     placeholder="johnd@gmail.com"
-                     ref={(input) => this.username = input}/>
-              <label htmlFor="email"></label>
-            </div>
-            <div className="input-field">
-              <input name="password"
-                     required
-                     type="password"
-                     placeholder="password"
-                     ref={(input) => this.password = input}/>
-              <label htmlFor="password"></label>
-            </div>
+    return (
+      <form className="modal-form" onSubmit={(e) => this.handleSubmit(e)}>
+        <div className="input-field">
+          <input name="username"
+                 required
+                 type="email"
+                 placeholder="johnd@gmail.com"
+                 ref={(input) => this.username = input}/>
+          <label htmlFor="email"></label>
+        </div>
+        <div className="input-field">
+          <input name="password"
+                 required
+                 type="password"
+                 placeholder="password"
+                 ref={(input) => this.password = input}/>
+          <label htmlFor="password"></label>
+        </div>
 
-            <button>Log In <FaAngleRight className="signup-icon"/></button>
-          </form>
-      )
-    }
+        <button>Log In <FaAngleRight className="signup-icon"/></button>
+      </form>
+    )
   }
 }
 

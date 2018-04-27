@@ -25,7 +25,6 @@ class Form extends Component {
   };
 
   handleEdit = (e) => {
-    e.preventDefault();
     console.log('start editing');
     const formData = new FormData(e.target);
     formData.append('file', this.state.file);
@@ -95,7 +94,6 @@ class Form extends Component {
           <div className="form-group">
             <label htmlFor="image">{this.props.showEditForm ? `Change image` : `Image`}</label>
             <input type="file"
-                   required
                    onChange={(e) => this.handleImageChange(e)}
                    className="form-control"
                    ref={(input) => this.input = input}
