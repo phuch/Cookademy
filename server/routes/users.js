@@ -27,7 +27,6 @@ router.post('/register', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  console.log('user login');
   User.findOne({
     username: req.body.username
   }, (err, user) => {
@@ -40,6 +39,7 @@ router.post('/login', (req, res) => {
       user.comparePassword(req.body.password, (err, isMatch) => {
         if (isMatch && !err) {
           // if user is found and password is right create a token
+          user.password = '';
           const token = jwt.sign(user.toJSON(), process.env.SESSION_SECRET);
           // return the information including token as JSON
           res.send({success: true, token: 'JWT ' + token});
@@ -57,15 +57,6 @@ router.get('/', (req, res, next) => {
     res.json({ user: req.user })
   } else {
     res.json({ user: null })
-  }
-});
-
-router.post('/logout', (req, res) => {
-  if (req.user) {
-    req.logout();
-    res.send({ msg: 'logging out' })
-  } else {
-    res.send({ msg: 'no user to log out' })
   }
 });
 

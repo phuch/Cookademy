@@ -29,9 +29,9 @@ class SignupForm extends Component {
     })
     .then(res => {
       console.log(res);
-      if (res.data.error) {
-        console.log(res.data.error);
-        notify.show(res.data.error, 'error', 2000);
+      if (!res.data.success) {
+        console.log(res.data.msg);
+        notify.show(res.data.msg, 'error', 2000);
       } else {
         notify.show('Signup succesfully!', 'success', 2000);
         this.props.toggleForm();

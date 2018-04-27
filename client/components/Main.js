@@ -28,8 +28,8 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    const userToken = localStorage.getItem('jwtToken').split(' ')[1];
-    console.log(decode(userToken));
+    //const userToken = localStorage.getItem('jwtToken').split(' ')[1];
+    //console.log(decode(userToken));
     axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken');
     axios.get('http://localhost:8000/recipes/')
     .then(res => {
@@ -42,7 +42,8 @@ class Main extends Component {
   }
 
   logout = () => {
-    localStorage.rem
+    localStorage.removeItem('jwtToken');
+    window.location.reload();
   }
 
   toggleModal = (info) => {
@@ -91,6 +92,7 @@ class Main extends Component {
     return (
         <main>
           <SearchBar searchRecipe={this.seachRecipe}/>
+          <button onClick={this.logout}>Logout</button>
           <Tabs>
             <TabList>
               <Tab>Recipes</Tab>

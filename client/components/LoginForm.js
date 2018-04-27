@@ -31,7 +31,7 @@ class LoginForm extends Component {
           <input name="username"
                  required
                  type="email"
-                 placeholder="johnd@gmail.com"
+                 placeholder="Email address"
                  ref={(input) => this.username = input}/>
           <label htmlFor="email"></label>
         </div>
@@ -39,7 +39,7 @@ class LoginForm extends Component {
           <input name="password"
                  required
                  type="password"
-                 placeholder="password"
+                 placeholder="Password"
                  ref={(input) => this.password = input}/>
           <label htmlFor="password"></label>
         </div>

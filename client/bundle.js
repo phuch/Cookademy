@@ -35932,7 +35932,8 @@ var Main = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this));
 
     _this.logout = function () {
-      localStorage.rem;
+      localStorage.removeItem('jwtToken');
+      window.location.reload();
     };
 
     _this.toggleModal = function (info) {
@@ -35985,8 +35986,8 @@ var Main = function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      var userToken = localStorage.getItem('jwtToken').split(' ')[1];
-      console.log((0, _jwtDecode2.default)(userToken));
+      //const userToken = localStorage.getItem('jwtToken').split(' ')[1];
+      //console.log(decode(userToken));
       _axios2.default.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken');
       _axios2.default.get('http://localhost:8000/recipes/').then(function (res) {
         _this2.setState({ images: res.data });
@@ -36011,6 +36012,11 @@ var Main = function (_Component) {
         'main',
         null,
         _react2.default.createElement(_SearchBar2.default, { searchRecipe: this.seachRecipe }),
+        _react2.default.createElement(
+          'button',
+          { onClick: this.logout },
+          'Logout'
+        ),
         _react2.default.createElement(
           _reactTabs.Tabs,
           null,
@@ -56453,9 +56459,9 @@ var SignupForm = function (_Component) {
         password: _this.password.value
       }).then(function (res) {
         console.log(res);
-        if (res.data.error) {
-          console.log(res.data.error);
-          _reactNotifyToast.notify.show(res.data.error, 'error', 2000);
+        if (!res.data.success) {
+          console.log(res.data.msg);
+          _reactNotifyToast.notify.show(res.data.msg, 'error', 2000);
         } else {
           _reactNotifyToast.notify.show('Signup succesfully!', 'success', 2000);
           _this.props.toggleForm();
@@ -56689,7 +56695,7 @@ var LoginForm = function (_Component) {
           _react2.default.createElement('input', { name: 'username',
             required: true,
             type: 'email',
-            placeholder: 'johnd@gmail.com',
+            placeholder: 'Email address',
             ref: function ref(input) {
               return _this2.username = input;
             } }),
@@ -56701,7 +56707,7 @@ var LoginForm = function (_Component) {
           _react2.default.createElement('input', { name: 'password',
             required: true,
             type: 'password',
-            placeholder: 'password',
+            placeholder: 'Password',
             ref: function ref(input) {
               return _this2.password = input;
             } }),
