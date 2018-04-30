@@ -4,7 +4,6 @@ const passport = require('passport');
 
 const router = express.Router();
 
-const ExifImage = require('exif').ExifImage;
 const multer = require("multer");
 const moment = require("moment");
 const sharp = require("sharp");
@@ -162,4 +161,4 @@ const getToken = (headers) => {
   } else {
     return null;
   }
-}
+};

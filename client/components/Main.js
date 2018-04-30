@@ -19,7 +19,8 @@ class Main extends Component {
   constructor() {
     super();
     this.state = {
-      images: [],
+      recipes: [],
+      categories: [],
       showModal: false,
       showEditForm: false,
       modalInfo: null,
@@ -31,13 +32,23 @@ class Main extends Component {
     //const userToken = localStorage.getItem('jwtToken').split(' ')[1];
     //console.log(decode(userToken));
     axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken');
+
+    //get all recipes from database
     axios.get('http://localhost:8000/recipes/')
     .then(res => {
-      this.setState({images: res.data});
+      this.setState({recipes: res.data});
     }).catch(err => {
       if(err.response.status === 401) {
         this.props.history.push('/')
       }
+    });
+
+    //get all categories from database
+    axios.get('http://localhost:8000/categories/')
+    .then(res => {
+      this.setState({categories: res.data});
+    }).catch(err => {
+      console.log(err);
     });
   }
 
@@ -63,7 +74,7 @@ class Main extends Component {
   deleteRecipe = () => {
     axios.get('http://localhost:8000/recipes/')
     .then(res => {
-      this.setState({images: res.data});
+      this.setState({recipes: res.data});
     }).catch(err => {
       console.log(err);
     });
@@ -76,19 +87,18 @@ class Main extends Component {
       }
     }).then(res => {
       console.log(res);
-      this.setState({images: res.data});
+      this.setState({recipes: res.data});
     }).catch(err => {
       console.log(err);
     });
   };
 
   render() {
-    const categories = this.state.images
-    .map((image) => image.category)
+    const categories = this.state.recipes
+    .map((recipe) => recipe.category)
     .filter(
         (category,index, self) => index === self.indexOf(category)
     );
-
     return (
         <main>
           <SearchBar searchRecipe={this.seachRecipe}/>
@@ -99,17 +109,17 @@ class Main extends Component {
               <Tab>Add</Tab>
             </TabList>
             <TabPanel>
-              {this.state.images.length ?
+              {this.state.recipes.length ?
                   <div className="App">
                     {categories.map((category) => {
                       return (
                           <ul key={category} className="img-container">
                             <h2>{category}</h2>
-                            {this.state.images.filter((img) => img.category === category)
-                            .map((img)=> {
+                            {this.state.recipes.filter((recipe) => recipe.category === category)
+                            .map((recipe)=> {
                               return (
-                                  <li className="img-card" key={img._id}>
-                                    <ImageCard toggleModal={this.toggleModal} image={img}/>
+                                  <li className="img-card" key={recipe._id}>
+                                    <ImageCard toggleModal={this.toggleModal} recipe={recipe}/>
                                   </li>
                               );
                             })
@@ -142,7 +152,7 @@ class Main extends Component {
             </TabPanel>
             <TabPanel>
               <h2>Add a recipe</h2>
-              <Form/>
+              <Form categories={this.state.categories}/>
             </TabPanel>
           </Tabs>
         </main>

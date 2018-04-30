@@ -69,6 +69,14 @@ class Form extends Component {
             />
           </div>
 
+          <select>
+            {this.props.categories.map((category) => {
+              return (
+                <option key={category._id} value={category.name}>{category.name}</option>
+              )
+            })}
+          </select>
+
           <div className="form-group">
             <label htmlFor="title">Dish's name</label>
             <input type="text"

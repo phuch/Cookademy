@@ -10807,6 +10807,17 @@ var Form = function (_Component) {
           })
         ),
         _react2.default.createElement(
+          'select',
+          null,
+          this.props.categories.map(function (category) {
+            return _react2.default.createElement(
+              'option',
+              { key: category._id, value: category.name },
+              category.name
+            );
+          })
+        ),
+        _react2.default.createElement(
           'div',
           { className: 'form-group' },
           _react2.default.createElement(
@@ -35952,7 +35963,7 @@ var Main = function (_Component) {
 
     _this.deleteRecipe = function () {
       _axios2.default.get('http://localhost:8000/recipes/').then(function (res) {
-        _this.setState({ images: res.data });
+        _this.setState({ recipes: res.data });
       }).catch(function (err) {
         console.log(err);
       });
@@ -35965,14 +35976,15 @@ var Main = function (_Component) {
         }
       }).then(function (res) {
         console.log(res);
-        _this.setState({ images: res.data });
+        _this.setState({ recipes: res.data });
       }).catch(function (err) {
         console.log(err);
       });
     };
 
     _this.state = {
-      images: [],
+      recipes: [],
+      categories: [],
       showModal: false,
       showEditForm: false,
       modalInfo: null,
@@ -35989,12 +36001,21 @@ var Main = function (_Component) {
       //const userToken = localStorage.getItem('jwtToken').split(' ')[1];
       //console.log(decode(userToken));
       _axios2.default.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken');
+
+      //get all recipes from database
       _axios2.default.get('http://localhost:8000/recipes/').then(function (res) {
-        _this2.setState({ images: res.data });
+        _this2.setState({ recipes: res.data });
       }).catch(function (err) {
         if (err.response.status === 401) {
           _this2.props.history.push('/');
         }
+      });
+
+      //get all categories from database
+      _axios2.default.get('http://localhost:8000/categories/').then(function (res) {
+        _this2.setState({ categories: res.data });
+      }).catch(function (err) {
+        console.log(err);
       });
     }
   }, {
@@ -36002,12 +36023,11 @@ var Main = function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      var categories = this.state.images.map(function (image) {
-        return image.category;
+      var categories = this.state.recipes.map(function (recipe) {
+        return recipe.category;
       }).filter(function (category, index, self) {
         return index === self.indexOf(category);
       });
-
       return _react2.default.createElement(
         'main',
         null,
@@ -36037,7 +36057,7 @@ var Main = function (_Component) {
           _react2.default.createElement(
             _reactTabs.TabPanel,
             null,
-            this.state.images.length ? _react2.default.createElement(
+            this.state.recipes.length ? _react2.default.createElement(
               'div',
               { className: 'App' },
               categories.map(function (category) {
@@ -36049,13 +36069,13 @@ var Main = function (_Component) {
                     null,
                     category
                   ),
-                  _this3.state.images.filter(function (img) {
-                    return img.category === category;
-                  }).map(function (img) {
+                  _this3.state.recipes.filter(function (recipe) {
+                    return recipe.category === category;
+                  }).map(function (recipe) {
                     return _react2.default.createElement(
                       'li',
-                      { className: 'img-card', key: img._id },
-                      _react2.default.createElement(_ImageCard2.default, { toggleModal: _this3.toggleModal, image: img })
+                      { className: 'img-card', key: recipe._id },
+                      _react2.default.createElement(_ImageCard2.default, { toggleModal: _this3.toggleModal, recipe: recipe })
                     );
                   })
                 );
@@ -36086,7 +36106,7 @@ var Main = function (_Component) {
               null,
               'Add a recipe'
             ),
-            _react2.default.createElement(_Form2.default, null)
+            _react2.default.createElement(_Form2.default, { categories: this.state.categories })
           )
         )
       );
@@ -38941,29 +38961,29 @@ var ImageCard = function ImageCard(props) {
   return _react2.default.createElement(
     "div",
     { className: "card" },
-    _react2.default.createElement("img", { className: "card-img-top", src: props.image.thumbnail, alt: "Card", style: { width: '100%' } }),
+    _react2.default.createElement("img", { className: "card-img-top", src: props.recipe.thumbnail, alt: "Card", style: { width: '100%' } }),
     _react2.default.createElement(
       "div",
       { className: "card-body" },
       _react2.default.createElement(
         "h4",
         { className: "card-title" },
-        props.image.title
+        props.recipe.title
       ),
       _react2.default.createElement(
         "p",
         { className: "card-text posted-time" },
-        props.image.time
+        props.recipe.time
       ),
       _react2.default.createElement(
         "p",
         { className: "card-text" },
-        props.image.details
+        props.recipe.details
       ),
       _react2.default.createElement(
         "button",
         { className: "btn btn-primary", onClick: function onClick() {
-            return props.toggleModal(props.image);
+            return props.toggleModal(props.recipe);
           } },
         "View recipe"
       )

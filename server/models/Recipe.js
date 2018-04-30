@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const recipe = new Schema({
-  id: Number,
-  time: String,
   category: String,
   title: String,
   details: String,
@@ -10,6 +8,7 @@ const recipe = new Schema({
     lat: Number,
     lng: Number
   },
+  time: String,
   thumbnail: String,
   image: String,
   original: String
