@@ -6,6 +6,7 @@ import axios from 'axios';
 import decode from 'jwt-decode';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import IoAndroidExit from 'react-icons/lib/io/android-exit';
 
 // children components
 import ImageCard from './ImageCard';
@@ -101,8 +102,11 @@ class Main extends Component {
     );
     return (
         <main>
+          <div className="nav-bar">
+            <button className="logout-btn" onClick={this.logout}><IoAndroidExit size={30} color="#5CB3FD"/></button>
+          </div>
           <SearchBar searchRecipe={this.seachRecipe}/>
-          <button onClick={this.logout}>Logout</button>
+
           <Tabs>
             <TabList>
               <Tab>Recipes</Tab>
@@ -143,6 +147,7 @@ class Main extends Component {
                               toggleEditForm={this.toggleEditForm}
                               recipeInfo={this.state.recipeInfo}
                               showEditForm={this.state.showEditForm}
+                              categories={this.state.categories}
                     />
                     }
                   </div>

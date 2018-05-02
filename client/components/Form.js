@@ -59,23 +59,25 @@ class Form extends Component {
 
           <div className="form-group">
             <label htmlFor="category">Category</label>
-            <input type="text"
-                   required
-                   className="form-control"
-                   id="category"
-                   placeholder="Enter category"
-                   name="category"
-                   defaultValue={this.props.showEditForm ? `${this.props.recipeInfo.category}`: ''}
-            />
+            <select ref={select => this.category = select}
+                    className="select-box"
+                    name="category"
+                    defaultValue={this.props.showEditForm ? `${this.props.recipeInfo.category}` : ''}>
+              {this.props.categories.map((category) => {
+                return (
+                    <option key={category._id}
+                            value={category.name}
+                            selected={this.props.showEditForm &&
+                                (this.props.recipeInfo.category == category.name) ? 'selected' : undefined}
+                    >
+                      {category.name}
+                    </option>
+                )
+              })}
+            </select>
           </div>
 
-          <select>
-            {this.props.categories.map((category) => {
-              return (
-                <option key={category._id} value={category.name}>{category.name}</option>
-              )
-            })}
-          </select>
+
 
           <div className="form-group">
             <label htmlFor="title">Dish's name</label>

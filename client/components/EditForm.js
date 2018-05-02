@@ -17,7 +17,7 @@ class EditForm extends Component {
                 <button type="button" className="close" onClick={this.props.toggleEditForm}>&times;</button>
               </div>
               <div className="modal-body">
-                <Form recipeInfo={this.props.recipeInfo} showEditForm={this.props.showEditForm}/>
+                <Form categories={this.props.categories} recipeInfo={this.props.recipeInfo} showEditForm={this.props.showEditForm}/>
               </div>
             </div>
           </div>

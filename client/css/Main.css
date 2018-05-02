@@ -17,6 +17,16 @@
   text-align: center;
 }
 
+.logout-btn {
+  display: block;
+  width: 150px;
+  margin: 20px auto;
+  background: transparent;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
 .img-card {
   display:inline-block;
   margin: 20px;
@@ -63,14 +73,22 @@
   width: 40% !important;
 }
 
+/* input form */
+
 .img-form {
   margin-top: 10px;
 }
 
-.img-preview {
-  display: block;
-  margin: 20px auto;
-  width: 70%;
+.form-group input, .form-group textarea {
+  border: 1px solid #5CB3FD;
+}
+
+.select-box {
+  margin-left: 20px;
+  padding: 10px;
+  height: 35px;
+  width: 150px;
+  border: 1px solid #5CB3FD;
 }
 
 .submit-btn {
