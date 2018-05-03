@@ -26,6 +26,7 @@ class Main extends Component {
       currentUser: decode(USER_TOKEN),
       showModal: false,
       showEditForm: false,
+      isSearching: false,
       modalInfo: null,
       recipeInfo: null
     }
@@ -83,7 +84,10 @@ class Main extends Component {
       }
     }).then(res => {
       console.log(res);
-      this.setState({recipes: res.data});
+      this.setState({recipes: res.data, isSearching: true});
+      if (!value) {
+        this.setState({isSearching: false});
+      }
     }).catch(err => {
       console.log(err);
     });
@@ -96,15 +100,18 @@ class Main extends Component {
   }
 
   render() {
-    const categories = this.state.recipes
+    const {recipes, categories, currentUser, showModal, showEditForm, isSearching, modalInfo, recipeInfo} = this.state;
+    const displayedCategories = this.state.recipes
     .map((recipe) => recipe.category)
     .filter(
         (category,index, self) => index === self.indexOf(category)
     );
 
+    const searchText = recipes.length == 1 ? `result found` : `results found`;
+
     return (
         <main>
-          <NavBar currentUser={this.state.currentUser} handleLogout={this.handleLogout}/>
+          <NavBar currentUser={currentUser} handleLogout={this.handleLogout}/>
           <SearchBar searchRecipe={this.seachRecipe}/>
 
           <Tabs>
@@ -113,13 +120,15 @@ class Main extends Component {
               <Tab>Add</Tab>
             </TabList>
             <TabPanel>
-              {this.state.recipes.length ?
+              {recipes.length ?
                   <div className="App">
-                    {categories.map((category) => {
+                    {isSearching &&
+                      <h3 className="search-empty">{recipes.length} {searchText}</h3>}
+                    {displayedCategories.map((category) => {
                       return (
                           <ul key={category} className="img-container">
                             <h2>{category}</h2>
-                            {this.state.recipes.filter((recipe) => recipe.category === category)
+                            {recipes.filter((recipe) => recipe.category === category)
                             .map((recipe)=> {
                               return (
                                   <li className="img-card" key={recipe._id}>
@@ -132,10 +141,10 @@ class Main extends Component {
                       );
                     })}
 
-                    {this.state.showModal &&
-                    <Modal modalInfo={this.state.modalInfo}
-                           show={this.state.showModal}
-                           currentUser={this.state.currentUser}
+                    {showModal &&
+                    <Modal modalInfo={modalInfo}
+                           show={showModal}
+                           currentUser={currentUser}
                            toggleModal={this.toggleModal}
                            deleteRecipe={this.deleteRecipe}
                            editRecipe={this.toggleEditForm}
@@ -143,12 +152,12 @@ class Main extends Component {
                     />
                     }
 
-                    {this.state.showEditForm &&
-                    <EditForm show={this.state.showEditForm}
+                    {showEditForm &&
+                    <EditForm show={showEditForm}
                               toggleEditForm={this.toggleEditForm}
-                              recipeInfo={this.state.recipeInfo}
-                              showEditForm={this.state.showEditForm}
-                              categories={this.state.categories}
+                              recipeInfo={recipeInfo}
+                              showEditForm={showEditForm}
+                              categories={categories}
                     />
                     }
                   </div>
@@ -158,7 +167,7 @@ class Main extends Component {
             </TabPanel>
             <TabPanel>
               <h2>Add a recipe</h2>
-              <Form categories={this.state.categories} currentUser={this.state.currentUser}/>
+              <Form categories={categories} currentUser={currentUser}/>
             </TabPanel>
           </Tabs>
         </main>

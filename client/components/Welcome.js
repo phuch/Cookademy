@@ -20,22 +20,23 @@ class Welcome extends Component {
   }
 
   render() {
+    const {showSignupForm} = this.state;
     return (
         <div className="welcome-page">
           <Notifications />
           <div className="signup-form">
-            {this.state.showSignupForm ?
+            {showSignupForm ?
                 <SignupForm toggleForm={this.toggleForm}/> :
                 <LoginForm history={this.props.history}/>
             }
             <p>
-              {this.state.showSignupForm ?
+              {showSignupForm ?
                 `Already have an account?` :
                 `Not yet a member?`
               }
             </p>
             <a onClick={this.toggleForm}>
-              {this.state.showSignupForm ? `Login` : `Signup`}
+              {showSignupForm ? `Login` : `Signup`}
             </a>
           </div>
         </  div>

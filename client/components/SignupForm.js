@@ -8,9 +8,6 @@ class SignupForm extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      name: '',
-      email: '',
-      phone: '',
       formErrors: {name: '', email: '', password: ''},
       nameValid: false,
       emailValid: false,
@@ -86,6 +83,7 @@ class SignupForm extends Component {
   }
 
   render() {
+    const {formErrors} = this.state;
     return (
         <form onSubmit={this.handleSubmit} className="modal-form">
           <div className="input-field">
@@ -98,8 +96,8 @@ class SignupForm extends Component {
             />
             <label htmlFor="name"></label>
           </div>
-          {(this.state.formErrors.name.length > 0) &&
-            <p className="form-error">{this.state.formErrors.name}</p>
+          {(formErrors.name.length > 0) &&
+            <p className="form-error">{formErrors.name}</p>
           }
           <div className="input-field">
             <input name="username"
@@ -111,8 +109,8 @@ class SignupForm extends Component {
             />
             <label htmlFor="email"></label>
           </div>
-          {(this.state.formErrors.email.length > 0) &&
-            <p className="form-error">{this.state.formErrors.email}</p>
+          {(formErrors.email.length > 0) &&
+            <p className="form-error">{formErrors.email}</p>
           }
           <div className="input-field">
             <input name="password"
@@ -124,8 +122,8 @@ class SignupForm extends Component {
             />
             <label htmlFor="password"></label>
           </div>
-          {(this.state.formErrors.password.length > 0) &&
-            <p className="form-error">{this.state.formErrors.password}</p>
+          {(formErrors.password.length > 0) &&
+            <p className="form-error">{formErrors.password}</p>
           }
 
           <button>Sign up <FaAngleRight className="signup-icon"/></button>

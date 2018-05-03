@@ -35953,7 +35953,10 @@ var Main = function (_Component) {
         }
       }).then(function (res) {
         console.log(res);
-        _this.setState({ recipes: res.data });
+        _this.setState({ recipes: res.data, isSearching: true });
+        if (!value) {
+          _this.setState({ isSearching: false });
+        }
       }).catch(function (err) {
         console.log(err);
       });
@@ -35972,6 +35975,7 @@ var Main = function (_Component) {
       currentUser: (0, _jwtDecode2.default)(USER_TOKEN),
       showModal: false,
       showEditForm: false,
+      isSearching: false,
       modalInfo: null,
       recipeInfo: null
     };
@@ -36006,16 +36010,28 @@ var Main = function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      var categories = this.state.recipes.map(function (recipe) {
+      var _state = this.state,
+          recipes = _state.recipes,
+          categories = _state.categories,
+          currentUser = _state.currentUser,
+          showModal = _state.showModal,
+          showEditForm = _state.showEditForm,
+          isSearching = _state.isSearching,
+          modalInfo = _state.modalInfo,
+          recipeInfo = _state.recipeInfo;
+
+      var displayedCategories = this.state.recipes.map(function (recipe) {
         return recipe.category;
       }).filter(function (category, index, self) {
         return index === self.indexOf(category);
       });
 
+      var searchText = recipes.length == 1 ? 'result found' : 'results found';
+
       return _react2.default.createElement(
         'main',
         null,
-        _react2.default.createElement(_NavBar2.default, { currentUser: this.state.currentUser, handleLogout: this.handleLogout }),
+        _react2.default.createElement(_NavBar2.default, { currentUser: currentUser, handleLogout: this.handleLogout }),
         _react2.default.createElement(_SearchBar2.default, { searchRecipe: this.seachRecipe }),
         _react2.default.createElement(
           _reactTabs.Tabs,
@@ -36037,10 +36053,17 @@ var Main = function (_Component) {
           _react2.default.createElement(
             _reactTabs.TabPanel,
             null,
-            this.state.recipes.length ? _react2.default.createElement(
+            recipes.length ? _react2.default.createElement(
               'div',
               { className: 'App' },
-              categories.map(function (category) {
+              isSearching && _react2.default.createElement(
+                'h3',
+                { className: 'search-empty' },
+                recipes.length,
+                ' ',
+                searchText
+              ),
+              displayedCategories.map(function (category) {
                 return _react2.default.createElement(
                   'ul',
                   { key: category, className: 'img-container' },
@@ -36049,7 +36072,7 @@ var Main = function (_Component) {
                     null,
                     category
                   ),
-                  _this3.state.recipes.filter(function (recipe) {
+                  recipes.filter(function (recipe) {
                     return recipe.category === category;
                   }).map(function (recipe) {
                     return _react2.default.createElement(
@@ -36060,19 +36083,19 @@ var Main = function (_Component) {
                   })
                 );
               }),
-              this.state.showModal && _react2.default.createElement(_Modal2.default, { modalInfo: this.state.modalInfo,
-                show: this.state.showModal,
-                currentUser: this.state.currentUser,
+              showModal && _react2.default.createElement(_Modal2.default, { modalInfo: modalInfo,
+                show: showModal,
+                currentUser: currentUser,
                 toggleModal: this.toggleModal,
                 deleteRecipe: this.deleteRecipe,
                 editRecipe: this.toggleEditForm,
                 toggleEditForm: this.toggleEditForm
               }),
-              this.state.showEditForm && _react2.default.createElement(_EditForm2.default, { show: this.state.showEditForm,
+              showEditForm && _react2.default.createElement(_EditForm2.default, { show: showEditForm,
                 toggleEditForm: this.toggleEditForm,
-                recipeInfo: this.state.recipeInfo,
-                showEditForm: this.state.showEditForm,
-                categories: this.state.categories
+                recipeInfo: recipeInfo,
+                showEditForm: showEditForm,
+                categories: categories
               })
             ) : _react2.default.createElement(
               'h3',
@@ -36088,7 +36111,7 @@ var Main = function (_Component) {
               null,
               'Add a recipe'
             ),
-            _react2.default.createElement(_Form2.default, { categories: this.state.categories, currentUser: this.state.currentUser })
+            _react2.default.createElement(_Form2.default, { categories: categories, currentUser: currentUser })
           )
         )
       );
@@ -39078,10 +39101,10 @@ var Modal = function (_Component) {
               { className: 'modal-body' },
               _react2.default.createElement('img', { src: this.props.modalInfo.image, alt: 'thumb', width: '100%' })
             ),
-            _react2.default.createElement(
+            this.props.currentUser._id === this.props.modalInfo.user._id && _react2.default.createElement(
               'div',
               { className: 'modal-footer' },
-              this.props.currentUser._id === this.props.modalInfo.user._id && _react2.default.createElement(
+              _react2.default.createElement(
                 'button',
                 { type: 'button',
                   className: 'btn btn-primary',
@@ -39089,7 +39112,7 @@ var Modal = function (_Component) {
                 },
                 'Edit'
               ),
-              this.props.currentUser._id === this.props.modalInfo.user._id && _react2.default.createElement(
+              _react2.default.createElement(
                 'button',
                 { type: 'button',
                   className: 'btn btn-primary',
@@ -39239,7 +39262,14 @@ var SearchBar = function (_Component) {
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SearchBar.__proto__ || Object.getPrototypeOf(SearchBar)).call.apply(_ref, [this].concat(args))), _this), _this.handleSearch = function (e) {
       e.preventDefault();
       console.log('searching');
-      _this.props.searchRecipe(_this.input.value);
+      if (_this.input.value) {
+        _this.props.searchRecipe(_this.input.value);
+      }
+    }, _this.handleInputChange = function (e) {
+      e.preventDefault();
+      if (_this.input.value == '') {
+        _this.props.searchRecipe(_this.input.value);
+      }
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -39256,9 +39286,14 @@ var SearchBar = function (_Component) {
           { onSubmit: function onSubmit(e) {
               return _this2.handleSearch(e);
             } },
-          _react2.default.createElement('input', { type: 'text', placeholder: 'Search for recipes', name: 'search', ref: function ref(input) {
+          _react2.default.createElement('input', { type: 'text',
+            placeholder: 'Search for recipes',
+            name: 'search',
+            ref: function ref(input) {
               return _this2.input = input;
-            } }),
+            },
+            onChange: this.handleInputChange
+          }),
           _react2.default.createElement(
             'button',
             { type: 'submit' },
@@ -48828,6 +48863,8 @@ var Welcome = function (_Component) {
   _createClass(Welcome, [{
     key: 'render',
     value: function render() {
+      var showSignupForm = this.state.showSignupForm;
+
       return _react2.default.createElement(
         'div',
         { className: 'welcome-page' },
@@ -48835,16 +48872,16 @@ var Welcome = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'signup-form' },
-          this.state.showSignupForm ? _react2.default.createElement(_SignupForm2.default, { toggleForm: this.toggleForm }) : _react2.default.createElement(_LoginForm2.default, { history: this.props.history }),
+          showSignupForm ? _react2.default.createElement(_SignupForm2.default, { toggleForm: this.toggleForm }) : _react2.default.createElement(_LoginForm2.default, { history: this.props.history }),
           _react2.default.createElement(
             'p',
             null,
-            this.state.showSignupForm ? 'Already have an account?' : 'Not yet a member?'
+            showSignupForm ? 'Already have an account?' : 'Not yet a member?'
           ),
           _react2.default.createElement(
             'a',
             { onClick: this.toggleForm },
-            this.state.showSignupForm ? 'Login' : 'Signup'
+            showSignupForm ? 'Login' : 'Signup'
           )
         )
       );
@@ -60973,9 +61010,6 @@ var SignupForm = function (_Component) {
     };
 
     _this.state = {
-      name: '',
-      email: '',
-      phone: '',
       formErrors: { name: '', email: '', password: '' },
       nameValid: false,
       emailValid: false,
@@ -60989,6 +61023,8 @@ var SignupForm = function (_Component) {
     key: 'render',
     value: function render() {
       var _this2 = this;
+
+      var formErrors = this.state.formErrors;
 
       return _react2.default.createElement(
         'form',
@@ -61007,10 +61043,10 @@ var SignupForm = function (_Component) {
           }),
           _react2.default.createElement('label', { htmlFor: 'name' })
         ),
-        this.state.formErrors.name.length > 0 && _react2.default.createElement(
+        formErrors.name.length > 0 && _react2.default.createElement(
           'p',
           { className: 'form-error' },
-          this.state.formErrors.name
+          formErrors.name
         ),
         _react2.default.createElement(
           'div',
@@ -61026,10 +61062,10 @@ var SignupForm = function (_Component) {
           }),
           _react2.default.createElement('label', { htmlFor: 'email' })
         ),
-        this.state.formErrors.email.length > 0 && _react2.default.createElement(
+        formErrors.email.length > 0 && _react2.default.createElement(
           'p',
           { className: 'form-error' },
-          this.state.formErrors.email
+          formErrors.email
         ),
         _react2.default.createElement(
           'div',
@@ -61045,10 +61081,10 @@ var SignupForm = function (_Component) {
           }),
           _react2.default.createElement('label', { htmlFor: 'password' })
         ),
-        this.state.formErrors.password.length > 0 && _react2.default.createElement(
+        formErrors.password.length > 0 && _react2.default.createElement(
           'p',
           { className: 'form-error' },
-          this.state.formErrors.password
+          formErrors.password
         ),
         _react2.default.createElement(
           'button',

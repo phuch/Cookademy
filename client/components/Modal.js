@@ -36,25 +36,22 @@ class Modal extends Component {
             <div className="modal-body">
               <img src={this.props.modalInfo.image} alt="thumb" width="100%"/>
             </div>
-            <div className="modal-footer">
-              {this.props.currentUser._id === this.props.modalInfo.user._id &&
+            {this.props.currentUser._id === this.props.modalInfo.user._id &&
+              <div className="modal-footer">
                 <button type="button"
                         className="btn btn-primary"
                         onClick={this.handleEdit}
                 >
                   Edit
                 </button>
-              }
-
-              {this.props.currentUser._id === this.props.modalInfo.user._id &&
                 <button type="button"
                         className="btn btn-primary"
                         onClick={this.handleDelete}
                 >
                   Delete
                 </button>
-              }
-            </div>
+              </div>
+            }
           </div>
         </div>
       </div>
