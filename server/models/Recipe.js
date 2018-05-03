@@ -4,14 +4,15 @@ const recipe = new Schema({
   category: String,
   title: String,
   details: String,
-  coordinates: {
-    lat: Number,
-    lng: Number
-  },
+  instruction: String,
   time: String,
   thumbnail: String,
   image: String,
-  original: String
+  original: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
 });
 
 module.exports = mongoose.model('Recipe', recipe);

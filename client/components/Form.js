@@ -13,6 +13,7 @@ class Form extends Component {
     console.log('handle uploading');
     const formData = new FormData(e.target);
     formData.append('file', this.state.file);
+    formData.append('user', this.props.currentUser._id);
 
     axios({
       method: 'post',
@@ -98,6 +99,16 @@ class Form extends Component {
                       id="desc"
                       name="details"
                       defaultValue={this.props.showEditForm ? `${this.props.recipeInfo.details}`: ''}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="desc">Instruction</label>
+            <textarea className="form-control"
+                      required
+                      id="instruction"
+                      name="instruction"
+                      defaultValue={this.props.showEditForm ? `${this.props.recipeInfo.instruction}`: ''}
             />
           </div>
 

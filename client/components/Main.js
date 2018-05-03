@@ -6,7 +6,6 @@ import axios from 'axios';
 import decode from 'jwt-decode';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import IoAndroidExit from 'react-icons/lib/io/android-exit';
 
 // children components
 import ImageCard from './ImageCard';
@@ -14,14 +13,17 @@ import Modal from './Modal';
 import Form from './Form';
 import EditForm from './EditForm';
 import SearchBar from './SearchBar';
+import NavBar from './NavBar'
 
 class Main extends Component {
 
   constructor() {
     super();
+    const  USER_TOKEN = localStorage.getItem('jwtToken').split(' ')[1];
     this.state = {
       recipes: [],
       categories: [],
+      currentUser: decode(USER_TOKEN),
       showModal: false,
       showEditForm: false,
       modalInfo: null,
@@ -30,8 +32,6 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    //const userToken = localStorage.getItem('jwtToken').split(' ')[1];
-    //console.log(decode(userToken));
     axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken');
 
     //get all recipes from database
@@ -51,11 +51,6 @@ class Main extends Component {
     }).catch(err => {
       console.log(err);
     });
-  }
-
-  logout = () => {
-    localStorage.removeItem('jwtToken');
-    window.location.reload();
   }
 
   toggleModal = (info) => {
@@ -94,17 +89,22 @@ class Main extends Component {
     });
   };
 
+  handleLogout = () => {
+    localStorage.removeItem('jwtToken');
+    this.props.history.push('/');
+    window.location.reload();
+  }
+
   render() {
     const categories = this.state.recipes
     .map((recipe) => recipe.category)
     .filter(
         (category,index, self) => index === self.indexOf(category)
     );
+
     return (
         <main>
-          <div className="nav-bar">
-            <button className="logout-btn" onClick={this.logout}><IoAndroidExit size={30} color="#5CB3FD"/></button>
-          </div>
+          <NavBar currentUser={this.state.currentUser} handleLogout={this.handleLogout}/>
           <SearchBar searchRecipe={this.seachRecipe}/>
 
           <Tabs>
@@ -135,6 +135,7 @@ class Main extends Component {
                     {this.state.showModal &&
                     <Modal modalInfo={this.state.modalInfo}
                            show={this.state.showModal}
+                           currentUser={this.state.currentUser}
                            toggleModal={this.toggleModal}
                            deleteRecipe={this.deleteRecipe}
                            editRecipe={this.toggleEditForm}
@@ -157,7 +158,7 @@ class Main extends Component {
             </TabPanel>
             <TabPanel>
               <h2>Add a recipe</h2>
-              <Form categories={this.state.categories}/>
+              <Form categories={this.state.categories} currentUser={this.state.currentUser}/>
             </TabPanel>
           </Tabs>
         </main>

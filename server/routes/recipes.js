@@ -40,7 +40,7 @@ const makeMediumImg = (req,res,next) => {
   }
 };
 
-const createDataToDB = (req,res) => {
+const createDataToDB = (req,res, next) => {
   console.log("Creating data to db...");
   Recipe.create(req.body).then(post => {
     res.send(post);
@@ -80,17 +80,25 @@ router.get('/', passport.authenticate('jwt', { session: false}), (req, res) => {
     if (req.query.search) {
       console.log('searching');
       const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-      Recipe.find({title: regex}, (err, recipe) => {
+      Recipe.find({title: regex})
+      .populate('user', '_id name')
+      .exec((err, recipes) => {
         if (err)
           console.log(err);
 
-        if (!recipe)
+        if (!recipes)
           return res.status(404).send({message: "Recipe not found"});
-
-        res.send(recipe);
+        res.send(recipes);
       });
     } else {
-      Recipe.find().then(recipes => {
+      Recipe.find()
+      .populate('user', '_id name')
+      .exec((err, recipes) => {
+        if (err)
+          console.log(err);
+
+        if (!recipes)
+          return res.status(404).send({message: "Recipe not found"});
         res.send(recipes);
       });
     }
