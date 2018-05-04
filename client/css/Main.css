@@ -60,7 +60,7 @@
 .modal {
   display: block !important;
   position: relative !important;
-  width: 450px;
+  width: 500px;
 }
 
 .modal-body {
@@ -103,11 +103,46 @@
   border: 1px solid #5CB3FD;
 }
 
+.instruction {
+  height: 200px;
+}
+
+.ingredient-form input {
+  margin-left: 10px;
+  padding: .375rem .75rem;
+  border-radius: .25rem;
+}
+
+.ingredient-form button {
+  margin-left: 10px;
+  margin-bottom: 3px;
+}
+
+.added-ingredients input {
+  border: 1px solid #5CB3FD;
+  margin: 5px;
+  padding: 2px 7px;
+  border-radius: .25rem;
+}
+
+.added-ingredients li{
+  list-style-type: none;
+}
+
+.inline-btn {
+  background-color: transparent;
+  border: none;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
 .submit-btn {
   width: 150px;
   display: block !important;
   margin: 0 auto;
 }
+
+/* Search box */
 
 .search-container {
   width: 300px;

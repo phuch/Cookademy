@@ -12,11 +12,7 @@ const user = new Schema({
   password: {
     type: String,
     required: true
-  },
-  recipes: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Recipe'
-  }]
+  }
 });
 
 user.pre('save', function (next) {

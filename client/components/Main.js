@@ -36,7 +36,7 @@ class Main extends Component {
     axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken');
 
     //get all recipes from database
-    axios.get('http://localhost:8000/recipes/')
+    axios.get('/recipes')
     .then(res => {
       this.setState({recipes: res.data});
     }).catch(err => {
@@ -46,7 +46,7 @@ class Main extends Component {
     });
 
     //get all categories from database
-    axios.get('http://localhost:8000/categories/')
+    axios.get('/categories')
     .then(res => {
       this.setState({categories: res.data});
     }).catch(err => {
@@ -69,7 +69,7 @@ class Main extends Component {
   };
 
   deleteRecipe = () => {
-    axios.get('http://localhost:8000/recipes/')
+    axios.get('/recipes')
     .then(res => {
       this.setState({recipes: res.data});
     }).catch(err => {
@@ -78,7 +78,7 @@ class Main extends Component {
   };
 
   seachRecipe = (value) => {
-    axios.get('http://localhost:8000/recipes/', {
+    axios.get('/recipes', {
       params: {
         search: value
       }
@@ -123,7 +123,7 @@ class Main extends Component {
               {recipes.length ?
                   <div className="App">
                     {isSearching &&
-                      <h3 className="search-empty">{recipes.length} {searchText}</h3>}
+                      <h4 className="search-empty">{recipes.length} {searchText}</h4>}
                     {displayedCategories.map((category) => {
                       return (
                           <ul key={category} className="img-container">

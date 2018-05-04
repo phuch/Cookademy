@@ -4,6 +4,11 @@ const recipe = new Schema({
   category: String,
   title: String,
   details: String,
+  ingredients: [{
+    id: Number,
+    name: String,
+    quantity: String,
+  }],
   instruction: String,
   time: String,
   thumbnail: String,

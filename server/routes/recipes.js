@@ -113,6 +113,7 @@ router.post('/', passport.authenticate('jwt', { session: false}), upload.single(
     console.log('uploading');
     req.body.time = moment().format('MMMM Do YYYY, h:mm');
     req.body.original = 'original/' + req.file.filename;
+    req.body.ingredients = JSON.parse(req.body.ingredients);
     next();
   }
 }, makeThumbImg, makeMediumImg, createDataToDB);
