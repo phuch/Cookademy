@@ -34,7 +34,19 @@ class Modal extends Component {
               <button type="button" className="close" onClick={this.props.toggleModal}>&times;</button>
             </div>
             <div className="modal-body">
-              <img src={this.props.modalInfo.image} alt="thumb" width="100%"/>
+              <img className="recipe-img" src={this.props.modalInfo.image} alt="thumb" width="200px"/>
+              <h4>Ingredients</h4>
+              <ul>
+                {this.props.modalInfo.ingredients.map(ingredient => {
+                  return (
+                    <li key={ingredient.id}>
+                      &#9670; {ingredient.quantity} {ingredient.name}
+                    </li>
+                  )
+                })}
+              </ul>
+              <h4>Instruction</h4>
+              <pre>{this.props.modalInfo.instruction}</pre>
             </div>
             {this.props.currentUser._id === this.props.modalInfo.user._id &&
               <div className="modal-footer">

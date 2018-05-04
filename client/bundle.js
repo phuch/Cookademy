@@ -36331,7 +36331,7 @@ exports = module.exports = __webpack_require__(38)(undefined);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: \"FontAwesome\";\n  font-weight: normal;\n  font-style : normal;\n  src : url(\"https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.eot?v=4.3.0\");\n  src : url(\"https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0\") format(\"embedded-opentype\"),\n  url(\"https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.woff2?v=4.3.0\") format(\"woff2\"),\n  url(\"https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.woff?v=4.3.0\") format(\"woff\"),\n  url(\"https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.ttf?v=4.3.0\") format(\"truetype\"),\n  url(\"https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular\") format(\"svg\");\n}\n\n.img-container {\n  list-style-type: none;\n  margin: 0;\n  padding: 0;\n  text-align: center;\n}\n\n.logout-btn {\n  display: block;\n  width: 150px;\n  margin: 20px auto;\n  background: transparent;\n  font-size: 17px;\n  border: none;\n  cursor: pointer;\n}\n\n.img-card {\n  display:inline-block;\n  margin: 20px;\n  width: 300px;\n}\n\n.card-header {\n  background-color: white;\n  border: none;\n  text-align: left;\n}\n\n.card-body {\n  padding: 15px;\n}\n\n.modal-overlay {\n  position: fixed;\n  top: 0;\n  right: 0;\n  left: 0;\n  bottom: 0;\n  background-color: rgba(0,0,0,0.7);\n  z-index: 999;\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  align-items: center;\n}\n\n.modal {\n  display: block !important;\n  position: relative !important;\n  width: 500px;\n}\n\n.modal-body {\n  max-height: calc(100vh - 150px);\n  overflow-y: auto;\n}\n\n.posted-time {\n  font-size: 12px;\n  font-weight: 600;\n}\n\n.user-name {\n  font-size: 16px;\n  margin: 0;\n  font-weight: 700;\n}\n\n.google-map {\n  position: relative;\n  height: 30% !important;\n  width: 40% !important;\n}\n\n/* input form */\n\n.img-form {\n  margin-top: 10px;\n}\n\n.form-group input, .form-group textarea {\n  border: 1px solid #5CB3FD;\n}\n\n.select-box {\n  margin-left: 20px;\n  padding: 10px;\n  height: 35px;\n  width: 150px;\n  border: 1px solid #5CB3FD;\n}\n\n.instruction {\n  height: 200px;\n}\n\n.ingredient-form input {\n  margin-left: 10px;\n  padding: .375rem .75rem;\n  border-radius: .25rem;\n}\n\n.ingredient-form button {\n  margin-left: 10px;\n  margin-bottom: 3px;\n}\n\n.added-ingredients input {\n  border: 1px solid #5CB3FD;\n  margin: 5px;\n  padding: 2px 7px;\n  border-radius: .25rem;\n}\n\n.added-ingredients li{\n  list-style-type: none;\n}\n\n.inline-btn {\n  background-color: transparent;\n  border: none;\n  margin-left: 5px;\n  cursor: pointer;\n}\n\n.submit-btn {\n  width: 150px;\n  display: block !important;\n  margin: 0 auto;\n}\n\n/* Search box */\n\n.search-container {\n  width: 300px;\n  margin: 20px auto;\n}\n\n.search-container input{\n  padding: 6px 20px;\n  margin-top: 8px;\n  font-size: 17px;\n  border: 1px solid #CECECE;\n  border-right: none;\n  border-top-left-radius: 20px;\n  border-bottom-left-radius: 20px;\n\n}\n\n.search-container button {\n  padding: 6px 10px;\n  margin-top: 8px;\n  margin-right: 16px;\n  background: transparent;\n  font-size: 17px;\n  border: 1px solid #ddd;\n  cursor: pointer;\n  border-bottom-right-radius: 20px;\n  border-top-right-radius: 20px;\n}\n\n.search-container input:focus,.search-container button:focus {\n  outline:0;\n}\n\n.search-empty {\n  color: #B8B8B8;\n  text-align: center;\n  margin-top: 30px;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: \"FontAwesome\";\n  font-weight: normal;\n  font-style : normal;\n  src : url(\"https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.eot?v=4.3.0\");\n  src : url(\"https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0\") format(\"embedded-opentype\"),\n  url(\"https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.woff2?v=4.3.0\") format(\"woff2\"),\n  url(\"https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.woff?v=4.3.0\") format(\"woff\"),\n  url(\"https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.ttf?v=4.3.0\") format(\"truetype\"),\n  url(\"https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular\") format(\"svg\");\n}\n\nli {\n  list-style-type: none;\n}\n\n.recipe-img {\n  display: block;\n  margin: 20px auto;\n  border-radius: .35rem;\n}\n\n.img-container {\n  list-style-type: none;\n  margin: 0;\n  padding: 0;\n  text-align: center;\n}\n\n.logout-btn {\n  display: block;\n  width: 150px;\n  margin: 20px auto;\n  background: transparent;\n  font-size: 17px;\n  border: none;\n  cursor: pointer;\n}\n\n.img-card {\n  display:inline-block;\n  margin: 20px;\n  width: 300px;\n}\n\n.card-header {\n  background-color: white;\n  border: none;\n  text-align: left;\n}\n\n.card-body {\n  padding: 15px;\n}\n\n.modal-overlay {\n  position: fixed;\n  top: 0;\n  right: 0;\n  left: 0;\n  bottom: 0;\n  background-color: rgba(0,0,0,0.7);\n  z-index: 999;\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  align-items: center;\n}\n\n.modal {\n  display: block !important;\n  position: relative !important;\n  width: 500px;\n}\n\n.modal-body {\n  max-height: calc(100vh - 150px);\n  overflow-y: auto;\n}\n\n.posted-time {\n  font-size: 12px;\n  font-weight: 600;\n}\n\n.user-name {\n  font-size: 16px;\n  margin: 0;\n  font-weight: 700;\n}\n\n.google-map {\n  position: relative;\n  height: 30% !important;\n  width: 40% !important;\n}\n\n/* input form */\n\n.img-form {\n  margin-top: 10px;\n}\n\n.form-group input, .form-group textarea {\n  border: 1px solid #5CB3FD;\n}\n\n.select-box {\n  margin-left: 20px;\n  padding: 10px;\n  height: 35px;\n  width: 150px;\n  border: 1px solid #5CB3FD;\n}\n\n.instruction {\n  height: 200px;\n}\n\n.ingredient-form input {\n  margin-left: 10px;\n  padding: .375rem .75rem;\n  border-radius: .25rem;\n}\n\n.ingredient-form button {\n  margin-left: 10px;\n  margin-bottom: 3px;\n}\n\n.added-ingredients input {\n  border: 1px solid #5CB3FD;\n  margin: 5px;\n  padding: 2px 7px;\n  border-radius: .25rem;\n}\n\n.inline-btn {\n  background-color: transparent;\n  border: none;\n  margin-left: 5px;\n  cursor: pointer;\n}\n\n.submit-btn {\n  width: 150px;\n  display: block !important;\n  margin: 0 auto;\n}\n\n/* Search box */\n\n.search-container {\n  width: 300px;\n  margin: 20px auto;\n}\n\n.search-container input{\n  padding: 6px 20px;\n  margin-top: 8px;\n  font-size: 17px;\n  border: 1px solid #CECECE;\n  border-right: none;\n  border-top-left-radius: 20px;\n  border-bottom-left-radius: 20px;\n\n}\n\n.search-container button {\n  padding: 6px 10px;\n  margin-top: 8px;\n  margin-right: 16px;\n  background: transparent;\n  font-size: 17px;\n  border: 1px solid #ddd;\n  cursor: pointer;\n  border-bottom-right-radius: 20px;\n  border-top-right-radius: 20px;\n}\n\n.search-container input:focus,.search-container button:focus {\n  outline:0;\n}\n\n.search-empty {\n  color: #B8B8B8;\n  text-align: center;\n  margin-top: 30px;\n}", ""]);
 
 // exports
 
@@ -39267,7 +39267,36 @@ var Modal = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'modal-body' },
-              _react2.default.createElement('img', { src: this.props.modalInfo.image, alt: 'thumb', width: '100%' })
+              _react2.default.createElement('img', { className: 'recipe-img', src: this.props.modalInfo.image, alt: 'thumb', width: '200px' }),
+              _react2.default.createElement(
+                'h4',
+                null,
+                'Ingredients'
+              ),
+              _react2.default.createElement(
+                'ul',
+                null,
+                this.props.modalInfo.ingredients.map(function (ingredient) {
+                  return _react2.default.createElement(
+                    'li',
+                    { key: ingredient.id },
+                    '\u25C6 ',
+                    ingredient.quantity,
+                    ' ',
+                    ingredient.name
+                  );
+                })
+              ),
+              _react2.default.createElement(
+                'h4',
+                null,
+                'Instruction'
+              ),
+              _react2.default.createElement(
+                'pre',
+                null,
+                this.props.modalInfo.instruction
+              )
             ),
             this.props.currentUser._id === this.props.modalInfo.user._id && _react2.default.createElement(
               'div',

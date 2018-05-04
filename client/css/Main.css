@@ -10,6 +10,16 @@
   url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular") format("svg");
 }
 
+li {
+  list-style-type: none;
+}
+
+.recipe-img {
+  display: block;
+  margin: 20px auto;
+  border-radius: .35rem;
+}
+
 .img-container {
   list-style-type: none;
   margin: 0;
@@ -123,10 +133,6 @@
   margin: 5px;
   padding: 2px 7px;
   border-radius: .25rem;
-}
-
-.added-ingredients li{
-  list-style-type: none;
 }
 
 .inline-btn {
