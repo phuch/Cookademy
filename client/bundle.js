@@ -10773,6 +10773,7 @@ var Form = function (_Component) {
     _this.handleEditRecipe = function (e) {
       console.log('start editing');
       var formData = new FormData(e.target);
+      formData.append('ingredients', JSON.stringify(_this.state.ingredients));
       formData.append('file', _this.state.file);
 
       var url = '/recipes/' + _this.props.recipeInfo._id;
@@ -10816,10 +10817,12 @@ var Form = function (_Component) {
 
     _this.editIngredient = function (index) {
       var ingredients = Object.assign([], _this.state.ingredients);
-      var ingredient = ingredients[index];
+      var ingredient = Object.assign({}, ingredients[index]);
 
       ingredient.name = _this.editedIngredient.value;
       ingredient.quantity = _this.editedQuantity.value;
+
+      ingredients[index] = ingredient;
 
       _this.setState({
         ingredients: ingredients,
@@ -10894,7 +10897,9 @@ var Form = function (_Component) {
           ),
           _react2.default.createElement(
             'button',
-            { type: 'button', className: 'inline-btn', onClick: _this.deleteIngredient },
+            { type: 'button', className: 'inline-btn', onClick: function onClick() {
+                return _this.deleteIngredient(index);
+              } },
             _react2.default.createElement(_clear2.default, { color: '#5CB3FD' })
           )
         );
@@ -10911,6 +10916,14 @@ var Form = function (_Component) {
   }
 
   _createClass(Form, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (this.props.showEditForm) {
+        var ingredients = Object.assign([], this.props.recipeInfo.ingredients);
+        this.setState({ ingredients: ingredients });
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -11014,9 +11027,7 @@ var Form = function (_Component) {
           _react2.default.createElement(
             'ul',
             null,
-            this.props.showEditForm ? this.props.recipeInfo.ingredients.map(function (ingredient, index) {
-              return _this2.renderIngredientList(ingredient, index);
-            }) : ingredients.map(function (ingredient, index) {
+            ingredients.map(function (ingredient, index) {
               return _this2.renderIngredientList(ingredient, index);
             })
           )

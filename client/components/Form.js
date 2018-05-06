@@ -16,6 +16,13 @@ class Form extends Component {
     }
   }
 
+  componentDidMount(){
+    if (this.props.showEditForm) {
+      const ingredients = Object.assign([], this.props.recipeInfo.ingredients);
+      this.setState({ingredients: ingredients});
+    }
+  }
+
   toggleIngredientEdit = (id) => {
     this.setState({
       isIngredientEditing: id
@@ -42,6 +49,7 @@ class Form extends Component {
   handleEditRecipe = (e) => {
     console.log('start editing');
     const formData = new FormData(e.target);
+    formData.append('ingredients', JSON.stringify(this.state.ingredients));
     formData.append('file', this.state.file);
 
     const url = '/recipes/' + this.props.recipeInfo._id;
@@ -84,10 +92,12 @@ class Form extends Component {
 
   editIngredient = (index) => {
     const ingredients = Object.assign([], this.state.ingredients);
-    const ingredient = ingredients[index];
+    const ingredient = Object.assign({}, ingredients[index]);
 
     ingredient.name = this.editedIngredient.value;
     ingredient.quantity = this.editedQuantity.value;
+
+    ingredients[index] = ingredient;
 
     this.setState({
       ingredients: ingredients,
@@ -140,7 +150,7 @@ class Form extends Component {
           <button type="button" className="inline-btn" onClick={() => this.toggleIngredientEdit(ingredient.id)}>
             <MdModeEdit color="#5CB3FD"/>
           </button>
-          <button type="button" className="inline-btn" onClick={this.deleteIngredient}>
+          <button type="button" className="inline-btn" onClick={() => this.deleteIngredient(index)}>
             <MdClear color="#5CB3FD"/>
           </button>
         </li>
@@ -206,10 +216,7 @@ class Form extends Component {
 
         <div className="added-ingredients">
           <ul>
-            {this.props.showEditForm ?
-              this.props.recipeInfo.ingredients.map((ingredient, index) => {
-                return this.renderIngredientList(ingredient, index);
-              }) :
+            {
               ingredients.map((ingredient, index) => {
                 return this.renderIngredientList(ingredient, index);
               })
