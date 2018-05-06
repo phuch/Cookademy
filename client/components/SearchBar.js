@@ -5,7 +5,6 @@ class SearchBar extends Component {
 
   handleSearch = (e) => {
     e.preventDefault();
-    console.log('searching');
     if (this.input.value) {
       this.props.searchRecipe(this.input.value);
     }

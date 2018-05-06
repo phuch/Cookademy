@@ -83,7 +83,6 @@ class Main extends Component {
         search: value
       }
     }).then(res => {
-      console.log(res);
       this.setState({recipes: res.data, isSearching: true});
       if (!value) {
         this.setState({isSearching: false});

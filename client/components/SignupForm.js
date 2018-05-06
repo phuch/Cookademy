@@ -25,9 +25,7 @@ class SignupForm extends Component {
       password: this.password.value
     })
     .then(res => {
-      console.log(res);
       if (!res.data.success) {
-        console.log(res.data.msg);
         notify.show(res.data.msg, 'error', 2000);
       } else {
         notify.show('Signup succesfully!', 'success', 2000);

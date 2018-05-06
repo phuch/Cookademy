@@ -7,7 +7,6 @@ import {notify} from 'react-notify-toast';
 class LoginForm extends Component {
 
   handleSubmit = (e) => {
-    console.log('handle login');
     e.preventDefault();
     axios.post('/users/login', {
       username: this.username.value,
@@ -16,9 +15,7 @@ class LoginForm extends Component {
     .then(res => {
       localStorage.setItem('jwtToken', res.data.token);
       this.props.history.push('/home');
-      console.log(res.data);
     }).catch(error => {
-      console.log('Error occurs: ' + error);
       notify.show('Authentication failed', 'error', 2000);
     });
 

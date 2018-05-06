@@ -12,6 +12,7 @@ class Form extends Component {
     this.state = {
       file: '',
       ingredients: [],
+      requiredImg: true,
       isIngredientEditing: null
     }
   }
@@ -19,7 +20,10 @@ class Form extends Component {
   componentDidMount(){
     if (this.props.showEditForm) {
       const ingredients = Object.assign([], this.props.recipeInfo.ingredients);
-      this.setState({ingredients: ingredients});
+      this.setState({
+        ingredients: ingredients,
+        requiredImg: false
+      });
     }
   }
 
@@ -30,7 +34,6 @@ class Form extends Component {
   }
 
   handleSubmit = (e) => {
-    console.log('handle uploading');
     const formData = new FormData(e.target);
     formData.append('ingredients', JSON.stringify(this.state.ingredients));
     formData.append('file', this.state.file);
@@ -42,12 +45,11 @@ class Form extends Component {
       data: formData,
       config: { headers: {'Content-Type': 'multipart/form-data'}}
     })
-    .then((res) => {console.log(res);})
+    .then((res) => {})
     .catch((error) => {console.log(error);});
   };
 
   handleEditRecipe = (e) => {
-    console.log('start editing');
     const formData = new FormData(e.target);
     formData.append('ingredients', JSON.stringify(this.state.ingredients));
     formData.append('file', this.state.file);
@@ -59,7 +61,7 @@ class Form extends Component {
       data: formData,
       config: { headers: {'Content-Type': 'multipart/form-data'}}
     })
-    .then((res) => {console.log(res);})
+    .then((res) => {})
     .catch((error) => {console.log(error);});
   };
 
@@ -159,7 +161,7 @@ class Form extends Component {
   }
 
   render() {
-    const {ingredients} = this.state
+    const {ingredients, requiredImg} = this.state
     return (
       <form className="img-form"
             onSubmit={!this.props.showEditForm ? (e) => this.handleSubmit(e): (e) => this.handleEditRecipe(e)}>
@@ -237,6 +239,7 @@ class Form extends Component {
         <div className="form-group">
           <label htmlFor="image">{this.props.showEditForm ? `Change image` : `Image`}</label>
           <input type="file"
+                 required={requiredImg}
                  onChange={(e) => this.handleImageChange(e)}
                  className="form-control"
                  ref={(input) => this.input = input}

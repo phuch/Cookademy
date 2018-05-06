@@ -10752,7 +10752,6 @@ var Form = function (_Component) {
     };
 
     _this.handleSubmit = function (e) {
-      console.log('handle uploading');
       var formData = new FormData(e.target);
       formData.append('ingredients', JSON.stringify(_this.state.ingredients));
       formData.append('file', _this.state.file);
@@ -10763,15 +10762,12 @@ var Form = function (_Component) {
         url: '/recipes',
         data: formData,
         config: { headers: { 'Content-Type': 'multipart/form-data' } }
-      }).then(function (res) {
-        console.log(res);
-      }).catch(function (error) {
+      }).then(function (res) {}).catch(function (error) {
         console.log(error);
       });
     };
 
     _this.handleEditRecipe = function (e) {
-      console.log('start editing');
       var formData = new FormData(e.target);
       formData.append('ingredients', JSON.stringify(_this.state.ingredients));
       formData.append('file', _this.state.file);
@@ -10782,9 +10778,7 @@ var Form = function (_Component) {
         url: url,
         data: formData,
         config: { headers: { 'Content-Type': 'multipart/form-data' } }
-      }).then(function (res) {
-        console.log(res);
-      }).catch(function (error) {
+      }).then(function (res) {}).catch(function (error) {
         console.log(error);
       });
     };
@@ -10910,6 +10904,7 @@ var Form = function (_Component) {
     _this.state = {
       file: '',
       ingredients: [],
+      requiredImg: true,
       isIngredientEditing: null
     };
     return _this;
@@ -10920,7 +10915,10 @@ var Form = function (_Component) {
     value: function componentDidMount() {
       if (this.props.showEditForm) {
         var ingredients = Object.assign([], this.props.recipeInfo.ingredients);
-        this.setState({ ingredients: ingredients });
+        this.setState({
+          ingredients: ingredients,
+          requiredImg: false
+        });
       }
     }
   }, {
@@ -10928,7 +10926,9 @@ var Form = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var ingredients = this.state.ingredients;
+      var _state = this.state,
+          ingredients = _state.ingredients,
+          requiredImg = _state.requiredImg;
 
       return _react2.default.createElement(
         'form',
@@ -11056,6 +11056,7 @@ var Form = function (_Component) {
             this.props.showEditForm ? 'Change image' : 'Image'
           ),
           _react2.default.createElement('input', { type: 'file',
+            required: requiredImg,
             onChange: function onChange(e) {
               return _this2.handleImageChange(e);
             },
@@ -36131,7 +36132,6 @@ var Main = function (_Component) {
           search: value
         }
       }).then(function (res) {
-        console.log(res);
         _this.setState({ recipes: res.data, isSearching: true });
         if (!value) {
           _this.setState({ isSearching: false });
@@ -39230,12 +39230,10 @@ var Modal = function (_Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Modal.__proto__ || Object.getPrototypeOf(Modal)).call.apply(_ref, [this].concat(args))), _this), _this.handleDelete = function () {
-      console.log('handle delete recipe');
       var url = '/recipes/' + _this.props.modalInfo._id;
       _axios2.default.delete(url).then(function (res) {
         _this.props.toggleModal();
         _this.props.deleteRecipe();
-        console.log(res);
       }).catch(function (error) {
         console.log(error);
       });
@@ -39652,7 +39650,6 @@ var SearchBar = function (_Component) {
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SearchBar.__proto__ || Object.getPrototypeOf(SearchBar)).call.apply(_ref, [this].concat(args))), _this), _this.handleSearch = function (e) {
       e.preventDefault();
-      console.log('searching');
       if (_this.input.value) {
         _this.props.searchRecipe(_this.input.value);
       }
@@ -39804,7 +39801,7 @@ var NavBar = function (_React$Component) {
           { color: 'light', light: true, expand: 'md' },
           _react2.default.createElement(
             _reactstrap.NavbarBrand,
-            { href: '/' },
+            { href: '/home' },
             'Cookademy'
           ),
           _react2.default.createElement(_reactstrap.NavbarToggler, { onClick: this.toggle }),
@@ -49246,7 +49243,7 @@ var Welcome = function (_Component) {
     };
 
     _this.state = {
-      showSignupForm: true
+      showSignupForm: false
     };
     return _this;
   }
@@ -61340,9 +61337,7 @@ var SignupForm = function (_Component) {
         username: _this.username.value,
         password: _this.password.value
       }).then(function (res) {
-        console.log(res);
         if (!res.data.success) {
-          console.log(res.data.msg);
           _reactNotifyToast.notify.show(res.data.msg, 'error', 2000);
         } else {
           _reactNotifyToast.notify.show('Signup succesfully!', 'success', 2000);
@@ -61544,7 +61539,6 @@ var LoginForm = function (_Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = LoginForm.__proto__ || Object.getPrototypeOf(LoginForm)).call.apply(_ref, [this].concat(args))), _this), _this.handleSubmit = function (e) {
-      console.log('handle login');
       e.preventDefault();
       _axios2.default.post('/users/login', {
         username: _this.username.value,
@@ -61552,9 +61546,7 @@ var LoginForm = function (_Component) {
       }).then(function (res) {
         localStorage.setItem('jwtToken', res.data.token);
         _this.props.history.push('/home');
-        console.log(res.data);
       }).catch(function (error) {
-        console.log('Error occurs: ' + error);
         _reactNotifyToast.notify.show('Authentication failed', 'error', 2000);
       });
     }, _temp), _possibleConstructorReturn(_this, _ret);

@@ -4,13 +4,11 @@ import axios from 'axios';
 class Modal extends Component {
 
   handleDelete = () => {
-    console.log('handle delete recipe');
     const url = '/recipes/' + this.props.modalInfo._id;
     axios.delete(url)
     .then((res) => {
       this.props.toggleModal();
       this.props.deleteRecipe();
-      console.log(res);
     })
     .catch((error) => {console.log(error);});
   };
