@@ -9,13 +9,13 @@ const httpsPort = 3001;
 
 app.use(cors());
 // Authentication
-const sslkey = fs.readFileSync('ssl-key.pem');
-const sslcert = fs.readFileSync('ssl-cert.pem');
-const options = {
-  key: sslkey,
-  cert: sslcert
-};
+//const sslkey = fs.readFileSync('ssl-key.pem');
+//const sslcert = fs.readFileSync('ssl-cert.pem');
+//const options = {
+//  key: sslkey,
+///  cert: sslcert
+//};
 
-https.createServer(options, app).listen(8001);
+//https.createServer(options, app).listen(8001);
 http.createServer(app).listen(8000);
 
