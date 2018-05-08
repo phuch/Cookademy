@@ -5,7 +5,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const helmet = require('helmet');
 const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser');
 const passport = require('./passport');
 require('dotenv').config();
 
