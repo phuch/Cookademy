@@ -78,7 +78,6 @@ router.get('/', passport.authenticate('jwt', { session: false}), (req, res) => {
   const token = getToken(req.headers);
   if (token) {
     if (req.query.search) {
-      console.log('searching');
       const regex = new RegExp(escapeRegex(req.query.search), 'gi');
       Recipe.find({title: regex})
       .populate('user', '_id name')
@@ -104,6 +103,24 @@ router.get('/', passport.authenticate('jwt', { session: false}), (req, res) => {
     }
   }
 });
+
+//get recipes that belongs to a user
+router.get('/:userid', passport.authenticate('jwt', { session: false}), (req, res) => {
+  const token = getToken(req.headers);
+  if (token) {
+    Recipe.find({user: req.params.userid})
+    .populate('user', '_id name')
+    .exec((err, recipes) => {
+      if (err)
+        console.log(err);
+
+      if (!recipes)
+        return res.status(404).send({message: "Recipe not found"});
+      res.send(recipes);
+    });
+  }
+});
+
 
 
 // upload recipe
