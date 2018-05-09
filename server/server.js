@@ -5,7 +5,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const helmet = require('helmet');
 const mongoose = require('mongoose');
-const passport = require('./passport');
 require('dotenv').config();
 
 // required routes
@@ -29,17 +28,17 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-// // https redirect
-// app.use((req, res, next) => {
-//   if (req.protocol === 'https') {
-//     next();
-//   } else {
-//     res.redirect('https://localhost:8001' + req.url);
-//   }
-// });
+// https redirect
+app.use((req, res, next) => {
+  if (req.protocol === 'https') {
+    next();
+  } else {
+    res.redirect('https://localhost:8001' + req.url);
+  }
+});
 
 // connect to database
-mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/cookademy`)
+mongoose.connect(`${process.env.MONGODB_URI}`)
 .then(
   () => {
     console.log('Connect to database successfully.');
