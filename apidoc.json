@@ -1,0 +1,12 @@
+{
+  "name": "Cookademy",
+  "version": "1.0.0",
+  "description": "Cookademy API document",
+  "template": {
+    "forceLanguage": "en"
+  },
+  "apidoc": {
+    "title": "Custom apiDoc browser title",
+    "url" : "http://localhost:8000/apidoc"
+  }
+}
