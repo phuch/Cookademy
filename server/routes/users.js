@@ -1,5 +1,5 @@
 const express = require('express');
-const passport = require('passport');
+const passport = require('../passport');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -109,7 +109,7 @@ router.get('/', (req, res, next) => {
   Category.find().then(u => {
     const users = u.map(user => {
       delete user.password;
-    })
+    });
     res.send(users);
   });
 });

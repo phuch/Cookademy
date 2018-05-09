@@ -8,7 +8,7 @@ require('dotenv').config();
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
   secretOrKey   : process.env.SESSION_SECRET
-}
+};
 
 passport.use(new JwtStrategy(options, function(jwt_payload, done) {
   User.findOne({_id: jwt_payload._id}, function(err, user) {
