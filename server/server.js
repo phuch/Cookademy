@@ -29,13 +29,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // https redirect
-app.use((req, res, next) => {
-  if (req.protocol === 'https') {
-    next();
-  } else {
-    res.redirect('https://localhost:8001' + req.url);
-  }
-});
+// app.use((req, res, next) => {
+//   if (req.protocol === 'https') {
+//     next();
+//   } else {
+//     res.redirect('https://localhost:8001' + req.url);
+//   }
+// });
 
 // connect to database
 mongoose.connect(`${process.env.MONGODB_URI}`)
