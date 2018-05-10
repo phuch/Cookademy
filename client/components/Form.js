@@ -73,6 +73,7 @@ class Form extends Component {
       })
       .then((res) => {
         this.props.showToast("Upload image successfully", "success");
+        this.refreshForm();
         this.props.updateRecipes();
       })
       .catch((error) => {console.log(error);});
@@ -146,6 +147,10 @@ class Form extends Component {
     });
   }
 
+  refreshForm = () => {
+    document.getElementById("form").reset();
+  }
+
   renderIngredientList = (ingredient, index) => {
     if(this.state.isIngredientEditing === ingredient.id) {
       return (
@@ -193,7 +198,7 @@ class Form extends Component {
   render() {
     const {ingredients, requiredImg} = this.state
     return (
-      <form className="img-form"
+      <form id="form" className="img-form"
             onSubmit={!this.props.showEditForm ? (e) => this.handleSubmit(e): (e) => this.handleEditRecipe(e)}>
         <div className="form-group">
           <label htmlFor="category">Category</label>
