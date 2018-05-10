@@ -46,7 +46,7 @@ router.post('/register', (req, res) => {
 
 
 /**
-* @api {post} /users/login Register a new account
+* @api {post} /users/login User login
 * @apiGroup Users
 * @apiParam {String} username Username
 * @apiParam {String} password Password
@@ -100,17 +100,20 @@ router.post('/login', (req, res) => {
 *    [{
 *      "_id": 5adf32533ea8200e0caf47df,
 *      "name": "John Doe",
-*      "username": "j.d@gmail.com"
+*      "username": "j.d@gmail.com",
+*      "password": null
 *    }]
 * @apiErrorExample {json} List user error
 *    HTTP/1.1 500 Internal Server Error
 */
 router.get('/', (req, res, next) => {
-  Category.find().then(u => {
-    const users = u.map(user => {
-      delete user.password;
+  User.find().then(u => {
+
+    u.map(user => {
+      user.password = null;
     });
-    res.send(users);
+
+    res.send(u);
   });
 });
 

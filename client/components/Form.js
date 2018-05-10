@@ -36,18 +36,51 @@ class Form extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    // Original form data
-    const cookademyFomData = new FormData(e.target);
-    cookademyFomData.append('ingredients', JSON.stringify(this.state.ingredients));
-    cookademyFomData.append('user', this.props.currentUser._id);
+    const formData = new FormData(e.target);
+    formData.append('ingredients', JSON.stringify(this.state.ingredients));
+    console.log(JSON.stringify(this.state.ingredients));
+    formData.append('user', this.props.currentUser._id);
 
+    this.uploadImageToCloudinary(this.state.file)
+      .then((res) => {
+        // When uploading image succeeded, upload data to server, inlcuding
+        // the image url and image public id from Cloudinary
+        formData.append('imageUrl', res.data.url);
+        formData.append('imagePublicId', res.data.public_id);
+        formData.append('secureImageUrl', res.data.secure_url);
+        this.addRecipe(formData);
+      });
+  };
+
+  handleEditRecipe = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    formData.append('ingredients', JSON.stringify(this.state.ingredients));
+
+    if (this.state.file) {
+      this.uploadImageToCloudinary(this.state.file)
+          .then((res) => {
+            // When uploading image succeeded, upload data to server, inlcuding
+            // the image url and image public id from Cloudinary
+            formData.append('imageUrl', res.data.url);
+            formData.append('imagePublicId', res.data.public_id);
+            formData.append('secureImageUrl', res.data.secure_url);
+            this.updateRecipe(formData);
+          })
+    } else {
+      this.updateRecipe(formData);
+    }
+  };
+
+  uploadImageToCloudinary = (file) => {
     // Since Heroku cannot handle large file uploading (>4MB) and some issues,
     // we try to upload the image to Cloudinary first
     const cloudinaryFormData = new FormData();
     cloudinaryFormData.append("upload_preset", "wfvppycb");
     cloudinaryFormData.append("file", this.state.file);
 
-    axios({
+    return axios({
       method: 'post',
       url: 'https://api.cloudinary.com/v1_1/syris/image/upload',
       data: cloudinaryFormData,
@@ -58,40 +91,29 @@ class Form extends Component {
       }],
       headers: {'X-Requested-With': 'XMLHttpRequest'}
     })
-    .then((res) => {
-      // When uploading image succeeded, upload data to server, inlcuding
-      // the image url and image public id from Cloudinary
-      cookademyFomData.append('imageUrl', res.data.url);
-      cookademyFomData.append('imagePublicId', res.data.public_id);
-      cookademyFomData.append('secureImageUrl', res.data.secure_url);
+    .catch((error) => {
+      this.props.showToast("Fail to upload image", "error");
+    });
+  }
 
-      axios({
-        method: 'post',
-        url: '/recipes',
-        data: cookademyFomData,
-        config: { headers: {'Content-Type': 'multipart/form-data'}}
-      })
-      .then((res) => {
-        this.props.showToast("Recipe added", "success");
-        this.refreshForm();
-        this.props.updateRecipes();
-      })
-      .catch((error) => {
-        this.props.showToast("Fail to add recipe", "error");
-      });
+  addRecipe = (formData) => {
+    axios({
+      method: 'post',
+      url: '/recipes',
+      data: formData,
+      config: { headers: {'Content-Type': 'multipart/form-data'}}
+    })
+    .then((res) => {
+      this.props.showToast("Recipe added", "success");
+      this.refreshForm();
+      this.props.updateRecipes();
     })
     .catch((error) => {
       this.props.showToast("Fail to add recipe", "error");
     });
-  };
+  }
 
-  handleEditRecipe = (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-    formData.append('ingredients', JSON.stringify(this.state.ingredients));
-    formData.append('file', this.state.file);
-
+  updateRecipe = (formData) => {
     const url = '/recipes/' + this.props.recipeInfo._id;
     axios({
       method: 'put',
@@ -107,7 +129,7 @@ class Form extends Component {
     .catch((error) => {
       this.props.showToast("Fail to save recipe", "error");
     });
-  };
+  }
 
   handleImageChange = (e) => {
     e.preventDefault();

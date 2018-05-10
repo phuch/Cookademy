@@ -53,12 +53,12 @@ const updateDataToDB = (req,res) => {
 * @apiSuccess {Object[]} reicpes.ingredients List of ingredients
 * @apiSuccess {String} recipes.category Recipe category
 * @apiSuccess {String} reicpes.title Recipe title
-* @apiSuccess {String} recipes.description Recipe description
+* @apiSuccess {String} recipes.details Recipe description
 * @apiSuccess {Number} recipes.instruction Recipe instruction
 * @apiSuccess {String} recipes.time Time posted
-* @apiSuccess {String} recipes.original Original image of the recipe
-* @apiSuccess {String} recipes.thumbnail Thumbnail image of the recipe
-* @apiSuccess {String} recipes.image Image of the recipe
+* @apiSuccess {String} recipes.imageUrl Recipe image url
+* @apiSuccess {String} recipes.imagePublicId Recipe image public id
+* @apiSuccess {String} recipes.secureImageUrl Recipe secured image url
 * @apiSuccess {String} recipes.user User which recipe belong to
 * @apiSuccessExample {json} Success
 *    HTTP/1.1 200 OK
@@ -76,12 +76,13 @@ const updateDataToDB = (req,res) => {
 *      "_id": "5ac65aab6725cd685c6346f1",
 *      "category": "Dessert",
 *      "title": "Sweetened milk ",
-*      "description": "A delicious milk",
+*      "details": "A delicious milk",
 *      "instruction": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
 *      "time": "May 3rd 2018, 6:38"
-*      "original": "original/ffd3ef5a64216dae17b6afa9aead3153",
-*      "thumbnail": "thumb/ffd3ef5a64216dae17b6afa9aead3153",
-*      "image": "image/ffd3ef5a64216dae17b6afa9aead3153",
+*      "imageUrl": "http://res.cloudinary.com/syris/image/upload/v1525945949/shrimp-and-zucchini-recipe-5_nlbnxw.jpg",
+*      "imagePublicId": "shrimp-and-zucchini-recipe-5_nlbnxw",
+*      "secureImageUrl":
+*        "https://res.cloudinary.com/syris/image/upload/v1525945949/shrimp-and-zucchini-recipe-5_nlbnxw.jpg",
 *      "user": {
 *         "_id" : "5aeb2cd48781704af2a10e57",
 *         "name": "John Doe"
@@ -92,7 +93,7 @@ const updateDataToDB = (req,res) => {
 */
 
 /**
-* @api {get} /recipess/?query_param=:title Find recipes by name
+* @api {get} /recipes/?query_param=:title Find recipes by name
 * @apiGroup Recipes
 * @apiParam {String} query_id Search query parameter
 * @apiParam {String} title Recipe's title
@@ -101,12 +102,12 @@ const updateDataToDB = (req,res) => {
 * @apiSuccess {Object[]} reicpes.ingredients List of ingredients
 * @apiSuccess {String} recipes.category Recipe category
 * @apiSuccess {String} reicpes.title Recipe title
-* @apiSuccess {String} recipes.description Recipe description
+* @apiSuccess {String} recipes.details Recipe description
 * @apiSuccess {String} recipes.instruction Recipe instruction
 * @apiSuccess {String} recipes.time Time posted
-* @apiSuccess {String} recipes.original Original image of the recipe
-* @apiSuccess {String} recipes.thumbnail Thumbnail image of the recipe
-* @apiSuccess {String} recipes.image Image of the recipe
+* @apiSuccess {String} recipes.imageUrl Recipe image url
+* @apiSuccess {String} recipes.imagePublicId Recipe image public id
+* @apiSuccess {String} recipes.secureImageUrl Recipe secured image url
 * @apiSuccess {String} recipes.user User which recipe belong to
 * @apiSuccessExample {json} Success
 *    HTTP/1.1 200 OK
@@ -124,12 +125,13 @@ const updateDataToDB = (req,res) => {
 *      "_id": "5ac65aab6725cd685c6346f1",
 *      "category": "Dessert",
 *      "title": "Sweetened milk ",
-*      "description": "A delicious milk",
+*      "details": "A delicious milk",
 *      "instruction": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
 *      "time": "May 3rd 2018, 6:38"
-*      "original": "original/ffd3ef5a64216dae17b6afa9aead3153",
-*      "thumbnail": "thumb/ffd3ef5a64216dae17b6afa9aead3153",
-*      "image": "image/ffd3ef5a64216dae17b6afa9aead3153",
+*      "imageUrl": "http://res.cloudinary.com/syris/image/upload/v1525945949/shrimp-and-zucchini-recipe-5_nlbnxw.jpg",
+*      "imagePublicId": "shrimp-and-zucchini-recipe-5_nlbnxw",
+*      "secureImageUrl":
+*        "https://res.cloudinary.com/syris/image/upload/v1525945949/shrimp-and-zucchini-recipe-5_nlbnxw.jpg",
 *      "user": {
 *         "_id" : "5aeb2cd48781704af2a10e57",
 *         "name": "John Doe"
@@ -172,7 +174,7 @@ router.get('/', passport.authenticate('jwt', { session: false}), (req, res) => {
 
 
 /**
-* @api {get} /recipess/:userid Find recipes belong to a user
+* @api {get} /recipes/:userid Find recipes belong to a user
 * @apiGroup Recipes
 * @apiParam {String} User id param
 * @apiSuccess {Object[]} recipes List of recipes
@@ -180,12 +182,12 @@ router.get('/', passport.authenticate('jwt', { session: false}), (req, res) => {
 * @apiSuccess {Object[]} reicpes.ingredients List of ingredients
 * @apiSuccess {String} recipes.category Recipe category
 * @apiSuccess {String} reicpes.title Recipe title
-* @apiSuccess {String} recipes.description Recipe description
+* @apiSuccess {String} recipes.details Recipe description
 * @apiSuccess {String} recipes.instruction Recipe instruction
 * @apiSuccess {String} recipes.time Time posted
-* @apiSuccess {String} recipes.original Original image of the recipe
-* @apiSuccess {String} recipes.thumbnail Thumbnail image of the recipe
-* @apiSuccess {String} recipes.image Image of the recipe
+* @apiSuccess {String} recipes.imageUrl Recipe image url
+* @apiSuccess {String} recipes.imagePublicId Recipe image public id
+* @apiSuccess {String} recipes.secureImageUrl Recipe secured image url
 * @apiSuccess {String} recipes.user User which recipe belong to
 * @apiSuccessExample {json} Success
 *    HTTP/1.1 200 OK
@@ -203,12 +205,12 @@ router.get('/', passport.authenticate('jwt', { session: false}), (req, res) => {
 *      "_id": "5ac65aab6725cd685c6346f1",
 *      "category": "Dessert",
 *      "title": "Sweetened milk",
-*      "description": "A delicious milk",
+*      "details": "A delicious milk",
 *      "instruction": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
 *      "time": "May 3rd 2018, 6:38"
-*      "original": "original/ffd3ef5a64216dae17b6afa9aead3153",
-*      "thumbnail": "thumb/ffd3ef5a64216dae17b6afa9aead3153",
-*      "image": "image/ffd3ef5a64216dae17b6afa9aead3153",
+*      "imageUrl": "http://res.cloudinary.com/syris/image/upload/v1525945949/shrimp-and-zucchini-recipe-5_nlbnxw.jpg",
+*      "imagePublicId": "shrimp-and-zucchini-recipe-5_nlbnxw",
+*      "secureImageUrl": "https://res.cloudinary.com/syris/image/upload/v1525945949/shrimp-and-zucchini-recipe-5_nlbnxw.jpg",
 *      "user": "5aeb2cd48781704af2a10e57"
 *    },
 *    {
@@ -225,12 +227,12 @@ router.get('/', passport.authenticate('jwt', { session: false}), (req, res) => {
 *      "_id": "5ac65aab6725cd685c6346f1",
 *      "category": "Dessert",
 *      "title": "Pancakes",
-*      "description": "A fantastic pancake",
+*      "details": "A fantastic pancake",
 *      "instruction": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
 *      "time": "May 3rd 2018, 6:38"
-*      "original": "original/ffd3ef5a64216dae17b6afa9aead3153",
-*      "thumbnail": "thumb/ffd3ef5a64216dae17b6afa9aead3153",
-*      "image": "image/ffd3ef5a64216dae17b6afa9aead3153",
+*      "imageUrl": "http://res.cloudinary.com/syris/image/upload/v1525945949/shrimp-and-zucchini-recipe-5_nlbnxw.jpg",
+*      "imagePublicId": "shrimp-and-zucchini-recipe-5_nlbnxw",
+*      "secureImageUrl": "https://res.cloudinary.com/syris/image/upload/v1525945949/shrimp-and-zucchini-recipe-5_nlbnxw.jpg",
 *      "user": {
 *         "_id" : "5aeb2cd48781704af2a10e57",
 *         "name": "John Doe"
@@ -241,7 +243,6 @@ router.get('/', passport.authenticate('jwt', { session: false}), (req, res) => {
 * @apiErrorExample {json} Find error
 *    HTTP/1.1 500 Internal Server Error
 */
-//get recipes that belongs to a user
 router.get('/:userid', passport.authenticate('jwt', { session: false}), (req, res) => {
   const token = getToken(req.headers);
   if (token) {
@@ -264,34 +265,36 @@ router.get('/:userid', passport.authenticate('jwt', { session: false}), (req, re
 * @apiGroup Recipes
 * @apiParam {String} category Recipe category
 * @apiParam {String} title Recipe title
-* @apiParam {Object[]} ingredients Recipe ingredients
-* @apiParam {String} description Recipe description
+* @apiParam {String} details Recipe description
 * @apiParam {String} instruction Recipe instruction
-* @apiParam {File} file Recipe image file
+* @apiParam {Object[]} ingredients Recipe ingredients
+* @apiParam {String} user Owner id of the recipe
+* @apiParam {String} imageUrl Recipe image url
+* @apiParam {String} imagePublicId Recipe image public id
+* @apiParam {String} secureImageUrl Recipe secured image url
 * @apiParamExample {json} Input
 *    {
-*      "ingredients": [
-*         {
-*           "name": "eggs",
-*           "quantity": "2"
-*         }
-*       ],
-*      "category": "Main Dish",
-*      "title": "Fried egg",
-*      "description": "Fried egg to eat with rice",
-*      "direction": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-*      "file":"fried-egg.jpg"
+*     "category": "Main Dish",
+*     "title": "Fried Egg",
+*     "details": "Fried egg to eat with rice",
+*     "instruction": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+*     "ingredients": "[{\"id\":1525985964240,\"name\":\"eggs\",\"quantity\":\"2\"}]",
+*     "user": "5adf32533ea8200e0caf47df",
+*     "imageUrl": "http://res.cloudinary.com/syris/image/upload/v1525984513/shrimp-and-zucchini-recipe-5_ks1kcr.jpg",
+*     "imagePublicId": "shrimp-and-zucchini-recipe-5_ks1kcr",
+*     "secureImageUrl": "https://res.cloudinary.com/syris/image/upload/v1525984513/shrimp-and-zucchini-reci-5_ks1kcr.jpg"
 *    }
 * @apiSuccess {String} _id Recipe id
-* @apiSuccess {String[]} ingredients List of ingredients
 * @apiSuccess {String} category Recipe category
 * @apiSuccess {String} title Recipe title
-* @apiSuccess {String} difficulty Recipe's difficulty
-* @apiSuccess {Number} yields Number of products
-* @apiSuccess {String} description Recipe description
-* @apiSuccess {String} imgURL Image of the recipe
-* @apiSuccess {Date} updated_at Update's date
-* @apiSuccess {Date} created_at Register's date
+* @apiSuccess {String} details Recipe's description
+* @apiSuccess {Object[]} ingredients List of ingredients
+* @apiSuccess {String} instruction Recipe instruction
+* @apiSuccess {String} time Time posted
+* @apiSuccess {String} imageUrl Recipe image url
+* @apiSuccess {String} imagePublicId Recipe image public id
+* @apiSuccess {String} secureImageUrl Recipe secured image url
+* @apiSuccess {String} user User id which recipe belong to
 * @apiSuccessExample {json} Success
 *    HTTP/1.1 200 OK
 *    [{
@@ -304,10 +307,10 @@ router.get('/:userid', passport.authenticate('jwt', { session: false}), (req, re
 *      "title": "Fried egg",
 *      "description": "Fried egg to eat with rice",
 *      "direction": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-*      "time": "May 3rd 2018, 6:38"
-*      "original": "original/ffd3ef5a64216dae17b6afa9aead3153",
-*      "thumbnail": "thumb/ffd3ef5a64216dae17b6afa9aead3153",
-*      "image": "image/ffd3ef5a64216dae17b6afa9aead3153",
+*      "time": "May 3rd 2018, 6:38",
+*      "imageUrl": "http://res.cloudinary.com/syris/image/upload/v1525945949/shrimp-and-zucchini-recipe-5_nlbnxw.jpg",
+*      "imagePublicId": "shrimp-and-zucchini-recipe-5_nlbnxw",
+*      "secureImageUrl": "https://res.cloudinary.com/syris/image/upload/v1525945949/shrimp-and-zucchini-recipe-5_nlbnxw.jpg",
 *      "user": "5aeb2cd48781704af2a10e57"
 *    }]
 * @apiErrorExample {json} Register error
@@ -316,8 +319,6 @@ router.get('/:userid', passport.authenticate('jwt', { session: false}), (req, re
 router.post('/', passport.authenticate('jwt', { session: false}), upload.single('file'), (req, res, next) => {
   const token = getToken(req.headers);
   if (token) {
-    console.log('uploading');
-    console.log(req.body)
     req.body.time = moment().format('MMMM Do YYYY, h:mm');
     req.body.ingredients = JSON.parse(req.body.ingredients);
     next();
@@ -329,23 +330,23 @@ router.post('/', passport.authenticate('jwt', { session: false}), upload.single(
 * @apiGroup Recipes
 * @apiParam {String} category Recipe category
 * @apiParam {String} title Recipe title
-* @apiParam {String[]} ingredients Recipe ingredients
-* @apiParam {String} description Recipe description
+* @apiParam {String} details Recipe description
 * @apiParam {String} instruction Recipe instruction
-* @apiParam {File} file Recipe image file
+* @apiParam {Object[]} ingredients Recipe ingredients
+* @apiParam {String} imageUrl Recipe image url
+* @apiParam {String} imagePublicId Recipe image public id
+* @apiParam {String} secureImageUrl Recipe secured image url
 * @apiParamExample {json} Input
 *    {
-*      "ingredients": [
-*         {
-*           "name": "eggs",
-*           "quantity": "3"
-*         }
-*       ],
-*      "category": "Main Dish",
-*      "title": "Fried egg",
-*      "description": "Fried egg to eat with rice",
-*      "direction": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-*      "file":"fried-egg.jpg"
+*     "category": "Main Dish",
+*     "title": "Fried Egg",
+*     "details": "A delicious fried egg",
+*     "instruction": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+*     "ingredients": "[{\"id\":1525985964240,\"name\":\"egg\",\"quantity\":\"3\"}]",
+*     "user": "5adf32533ea8200e0caf47df",
+*     "imageUrl": "http://res.cloudinary.com/syris/image/upload/v1525984513/shrimp-and-zucchini-recipe-5_ks1kcr.jpg",
+*     "imagePublicId": "shrimp-and-zucchini-recipe-5_ks1kcr",
+*     "secureImageUrl": "https://res.cloudinary.com/syris/image/upload/v1525984513/shrimp-and-zucchini-reci-5_ks1kcr.jpg"
 *    }
  * @apiSuccessExample {json} Success
  *    HTTP/1.1 200 Recipe updated successfully.
@@ -358,10 +359,9 @@ router.post('/', passport.authenticate('jwt', { session: false}), upload.single(
 router.put('/:id', passport.authenticate('jwt', { session: false}), upload.single('file'), (req,res,next) => {
   const token = getToken(req.headers);
   if (token) {
-    if (req.file) {
-      req.body.original = 'original/' + req.file.filename;
+    if (req.body.ingredients) {
+      req.body.ingredients = JSON.parse(req.body.ingredients);
     }
-    req.body.ingredients = JSON.parse(req.body.ingredients);
     next();
   }
 }, updateDataToDB);
