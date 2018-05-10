@@ -35,7 +35,7 @@ class Modal extends Component {
             <div className="modal-body">
               <CloudinaryContext cloudName="syris">
                 <Image className="recipe-img" alt="thumb" publicId={this.props.modalInfo.imagePublicId}>
-                  <Transformation width="200" quality="80" crop="scale"/>
+                  <Transformation width="200" height="200" quality="80" crop="thumb"/>
                 </Image>
               </CloudinaryContext>
               <h4>Ingredients</h4>
