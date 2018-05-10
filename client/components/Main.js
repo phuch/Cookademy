@@ -163,6 +163,7 @@ class Main extends Component {
                               recipeInfo={recipeInfo}
                               showEditForm={showEditForm}
                               categories={categories}
+                              showToast={this.showToast}
                     />
                     }
                   </div>
