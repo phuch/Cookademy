@@ -76,9 +76,15 @@ class Form extends Component {
         this.refreshForm();
         this.props.updateRecipes();
       })
-      .catch((error) => {console.log(error);});
+      .catch((error) => {
+        console.log(error);
+        this.props.showToast("Fail to add recipe", "error");
+      });
     })
-    .catch((error) => {console.log(error);});
+    .catch((error) => {
+      console.log(error);
+      this.props.showToast("Fail to add recipe", "error");
+    });
   };
 
   handleEditRecipe = (e) => {
@@ -100,7 +106,10 @@ class Form extends Component {
       this.props.updateRecipes();
       this.props.toggleEditForm();
     })
-    .catch((error) => {console.log(error);});
+    .catch((error) => {
+      console.log(error);
+      this.props.showToast("Fail to save recipe", "error");
+    });
   };
 
   handleImageChange = (e) => {
