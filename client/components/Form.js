@@ -43,7 +43,7 @@ class Form extends Component {
 
     // Since Heroku cannot handle large file uploading (>4MB) and some issues,
     // we try to upload the image to Cloudinary first
-    var cloudinaryFormData = new FormData();
+    const cloudinaryFormData = new FormData();
     cloudinaryFormData.append("upload_preset", "wfvppycb");
     cloudinaryFormData.append("file", this.state.file);
 
@@ -77,12 +77,10 @@ class Form extends Component {
         this.props.updateRecipes();
       })
       .catch((error) => {
-        console.log(error);
         this.props.showToast("Fail to add recipe", "error");
       });
     })
     .catch((error) => {
-      console.log(error);
       this.props.showToast("Fail to add recipe", "error");
     });
   };
@@ -107,7 +105,6 @@ class Form extends Component {
       this.props.toggleEditForm();
     })
     .catch((error) => {
-      console.log(error);
       this.props.showToast("Fail to save recipe", "error");
     });
   };

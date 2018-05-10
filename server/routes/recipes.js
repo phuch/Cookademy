@@ -12,34 +12,6 @@ const upload = multer({ dest: 'public/original/' });
 moment.locale();
 
 // Middleware functions
-const makeThumbImg = (req,res,next) => {
-  if (req.file) {
-    const url = 'thumb/' + req.file.filename;
-    sharp(req.file.path).
-        resize(320, 240).
-        toFile('public/' + url, (err, info) => {
-          req.body.thumbnail = url;
-          next();
-        });
-  } else {
-    next();
-  }
-};
-
-const makeMediumImg = (req,res,next) => {
-  if (req.file) {
-    const url = 'image/' + req.file.filename;
-    sharp(req.file.path).
-        resize(770, 720).
-        toFile('public/' + url, (err, info) => {
-          req.body.image = url;
-          next();
-        });
-  } else {
-    next();
-  }
-};
-
 const createDataToDB = (req,res, next) => {
   console.log("Creating data to db...");
   Recipe.create(req.body).then(post => {
@@ -392,7 +364,7 @@ router.put('/:id', passport.authenticate('jwt', { session: false}), upload.singl
     req.body.ingredients = JSON.parse(req.body.ingredients);
     next();
   }
-}, makeThumbImg, makeMediumImg, updateDataToDB);
+}, updateDataToDB);
 
 /**
 * @api {delete} /recipes/:id Remove a recipe

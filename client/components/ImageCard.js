@@ -13,7 +13,6 @@ const ImageCard = (props) =>  {
             <Transformation gravity="auto" width="770" height="720" crop="thumb"/>
           </Image>
         </CloudinaryContext>
-        {/*<img className="card-img-top" src={props.recipe.thumbnail} alt="Card" style={{width:'100%'}}/>*/}
         <div className="card-body">
           <h4 className="card-title">{props.recipe.title}</h4>
           <p className="card-text">{props.recipe.details}</p>
