@@ -6,6 +6,7 @@ import axios from 'axios';
 import decode from 'jwt-decode';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import Notifications, {notify} from 'react-notify-toast';
 
 // children components
 import ImageCard from './ImageCard';
@@ -68,7 +69,7 @@ class Main extends Component {
     })
   };
 
-  deleteRecipe = () => {
+  updateRecipes = () => {
     axios.get('/recipes')
     .then(res => {
       this.setState({recipes: res.data});
@@ -92,6 +93,10 @@ class Main extends Component {
     });
   };
 
+  showToast = (message, type) => {
+    notify.show(message, type, 2000)
+  }
+
   handleLogout = () => {
     localStorage.removeItem('jwtToken');
     this.props.history.push('/');
@@ -110,6 +115,7 @@ class Main extends Component {
 
     return (
         <main>
+          <Notifications />
           <NavBar currentUser={currentUser} handleLogout={this.handleLogout}/>
           <SearchBar searchRecipe={this.seachRecipe}/>
 
@@ -145,7 +151,7 @@ class Main extends Component {
                            show={showModal}
                            currentUser={currentUser}
                            toggleModal={this.toggleModal}
-                           deleteRecipe={this.deleteRecipe}
+                           updateRecipes={this.updateRecipes}
                            editRecipe={this.toggleEditForm}
                            toggleEditForm={this.toggleEditForm}
                     />
@@ -166,7 +172,10 @@ class Main extends Component {
             </TabPanel>
             <TabPanel>
               <h2>Add a recipe</h2>
-              <Form categories={categories} currentUser={currentUser}/>
+              <Form categories={categories}
+                    currentUser={currentUser}
+                    updateRecipes={this.updateRecipes}
+                    showToast={this.showToast}/>
             </TabPanel>
           </Tabs>
         </main>

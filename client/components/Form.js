@@ -72,7 +72,8 @@ class Form extends Component {
         config: { headers: {'Content-Type': 'multipart/form-data'}}
       })
       .then((res) => {
-        window.location.reload();
+        this.props.showToast("Upload image successfully", "success");
+        this.props.updateRecipes();
       })
       .catch((error) => {console.log(error);});
     })

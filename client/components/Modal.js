@@ -9,7 +9,7 @@ class Modal extends Component {
     axios.delete(url)
     .then((res) => {
       this.props.toggleModal();
-      this.props.deleteRecipe();
+      this.props.updateRecipes();
     })
     .catch((error) => {console.log(error);});
   };
