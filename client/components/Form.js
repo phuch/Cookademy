@@ -71,7 +71,9 @@ class Form extends Component {
         data: cookademyFomData,
         config: { headers: {'Content-Type': 'multipart/form-data'}}
       })
-      .then((res) => {})
+      .then((res) => {
+        window.location.reload();
+      })
       .catch((error) => {console.log(error);});
     })
     .catch((error) => {console.log(error);});
