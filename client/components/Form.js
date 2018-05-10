@@ -151,7 +151,7 @@ class Form extends Component {
     document.getElementById("form").reset();
     if (!this.props.showEditForm) {
       this.setState({
-        ingredients: [...this.state.ingredients, newIngredient]
+        ingredients: []
       });
     }
   }
