@@ -22,6 +22,7 @@ class EditForm extends Component {
                     recipeInfo={this.props.recipeInfo}
                     showEditForm={this.props.showEditForm}
                     showToast={this.props.showToast}
+                    updateRecipes={this.props.updateRecipes}
                     toggleEditForm={this.props.toggleEditForm}/>
               </div>
             </div>
