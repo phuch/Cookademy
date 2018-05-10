@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import {Image, CloudinaryContext, Transformation} from 'cloudinary-react';
 
 class Modal extends Component {
 
@@ -32,7 +33,11 @@ class Modal extends Component {
               <button type="button" className="close" onClick={this.props.toggleModal}>&times;</button>
             </div>
             <div className="modal-body">
-              <img className="recipe-img" src={this.props.modalInfo.image} alt="thumb" width="200px"/>
+              <CloudinaryContext cloudName="syris">
+                <Image className="recipe-img" alt="thumb" publicId={this.props.modalInfo.imagePublicId}>
+                  <Transformation width="200" quality="80" crop="scale"/>
+                </Image>
+              </CloudinaryContext>
               <h4>Ingredients</h4>
               <ul>
                 {this.props.modalInfo.ingredients.map(ingredient => {

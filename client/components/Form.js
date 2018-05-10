@@ -34,18 +34,46 @@ class Form extends Component {
   }
 
   handleSubmit = (e) => {
-    const formData = new FormData(e.target);
-    formData.append('ingredients', JSON.stringify(this.state.ingredients));
-    formData.append('file', this.state.file);
-    formData.append('user', this.props.currentUser._id);
+    e.preventDefault();
+
+    // Original form data
+    const cookademyFomData = new FormData(e.target);
+    cookademyFomData.append('ingredients', JSON.stringify(this.state.ingredients));
+    cookademyFomData.append('user', this.props.currentUser._id);
+
+    // Since Heroku cannot handle large file uploading (>4MB) and some issues,
+    // we try to upload the image to Cloudinary first
+    var cloudinaryFormData = new FormData();
+    cloudinaryFormData.append("upload_preset", "wfvppycb");
+    cloudinaryFormData.append("file", this.state.file);
 
     axios({
       method: 'post',
-      url: '/recipes',
-      data: formData,
-      config: { headers: {'Content-Type': 'multipart/form-data'}}
+      url: 'https://api.cloudinary.com/v1_1/syris/image/upload',
+      data: cloudinaryFormData,
+      transformRequest: [(data, headers) => {
+        // This must be done, otherwise cannot upload image to Cloudinary
+        delete headers.common.Authorization
+        return data
+      }],
+      headers: {'X-Requested-With': 'XMLHttpRequest'}
     })
-    .then((res) => {})
+    .then((res) => {
+      // When uploading image succeeded, upload data to server, inlcuding
+      // the image url and image public id from Cloudinary
+      cookademyFomData.append('imageUrl', res.data.url);
+      cookademyFomData.append('imagePublicId', res.data.public_id);
+      cookademyFomData.append('secureImageUrl', res.data.secure_url);
+
+      axios({
+        method: 'post',
+        url: '/recipes',
+        data: cookademyFomData,
+        config: { headers: {'Content-Type': 'multipart/form-data'}}
+      })
+      .then((res) => {})
+      .catch((error) => {console.log(error);});
+    })
     .catch((error) => {console.log(error);});
   };
 
@@ -64,7 +92,6 @@ class Form extends Component {
     .then((res) => {})
     .catch((error) => {console.log(error);});
   };
-
 
   handleImageChange = (e) => {
     e.preventDefault();

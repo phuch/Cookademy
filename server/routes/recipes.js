@@ -345,12 +345,12 @@ router.post('/', passport.authenticate('jwt', { session: false}), upload.single(
   const token = getToken(req.headers);
   if (token) {
     console.log('uploading');
+    console.log(req.body)
     req.body.time = moment().format('MMMM Do YYYY, h:mm');
-    req.body.original = 'original/' + req.file.filename;
     req.body.ingredients = JSON.parse(req.body.ingredients);
     next();
   }
-}, makeThumbImg, makeMediumImg, createDataToDB);
+}, createDataToDB);
 
 /**
 * @api {put} /recipes/:id Update a recipe
