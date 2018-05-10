@@ -72,7 +72,7 @@ class Form extends Component {
         config: { headers: {'Content-Type': 'multipart/form-data'}}
       })
       .then((res) => {
-        this.props.showToast("Upload image successfully", "success");
+        this.props.showToast("Recipe added", "success");
         this.refreshForm();
         this.props.updateRecipes();
       })
@@ -82,6 +82,8 @@ class Form extends Component {
   };
 
   handleEditRecipe = (e) => {
+    e.preventDefault();
+
     const formData = new FormData(e.target);
     formData.append('ingredients', JSON.stringify(this.state.ingredients));
     formData.append('file', this.state.file);
@@ -93,7 +95,11 @@ class Form extends Component {
       data: formData,
       config: { headers: {'Content-Type': 'multipart/form-data'}}
     })
-    .then((res) => {})
+    .then((res) => {
+      this.props.showToast("Recipe saved", "success");
+      this.props.updateRecipes();
+      this.props.toggleEditForm();
+    })
     .catch((error) => {console.log(error);});
   };
 
