@@ -5,6 +5,7 @@ Cookademy is an app where you share your cooking recipes with the rest of the wo
 ## Demo 
 
 [Live Demo](https://cookademy.herokuapp.com/)
+
 [API doc](https://cookademy.herokuapp.com/apidoc)
 
 ## Implementation
